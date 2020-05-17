@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Event Data | Yamamuro Saeru</title>
+    <link>https://saeeeeru.github.io/tag/event-data/</link>
+      <atom:link href="https://saeeeeru.github.io/tag/event-data/index.xml" rel="self" type="application/rss+xml" />
+    <description>Event Data</description>
+    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><lastBuildDate>Fri, 28 Feb 2020 00:00:00 +0900</lastBuildDate>
+    <image>
+      <url>https://saeeeeru.github.io/images/icon_hu0b7a4cb9992c9ac0e91bd28ffd38dd00_9727_512x512_fill_lanczos_center_2.png</url>
+      <title>Event Data</title>
+      <link>https://saeeeeru.github.io/tag/event-data/</link>
+    </image>
+    
+    <item>
+      <title>WyScoutAnalyzerの開発</title>
+      <link>https://saeeeeru.github.io/project/wyscoutanalyzer/</link>
+      <pubDate>Fri, 28 Feb 2020 00:00:00 +0900</pubDate>
+      <guid>https://saeeeeru.github.io/project/wyscoutanalyzer/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>アクションの価値から選手を評価する</title>
+      <link>https://saeeeeru.github.io/project/vaep/</link>
+      <pubDate>Sun, 27 Oct 2019 00:00:00 +0900</pubDate>
+      <guid>https://saeeeeru.github.io/project/vaep/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>バルセロナのいままでをパスソナーから視てみる</title>
+      <link>https://saeeeeru.github.io/project/messi2/</link>
+      <pubDate>Tue, 17 Sep 2019 00:00:00 +0900</pubDate>
+      <guid>https://saeeeeru.github.io/project/messi2/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>メッシの今までを視てみる</title>
+      <link>https://saeeeeru.github.io/project/messi1/</link>
+      <pubDate>Thu, 05 Sep 2019 00:00:00 +0900</pubDate>
+      <guid>https://saeeeeru.github.io/project/messi1/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Sports Analyst Meetup #2にてLT登壇</title>
+      <link>https://saeeeeru.github.io/talk/spoana2/</link>
+      <pubDate>Sun, 12 May 2019 00:00:00 +0900</pubDate>
+      <guid>https://saeeeeru.github.io/talk/spoana2/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>データで見る2018ロシアW杯「各国のボール保持力・奪取力マップの可視化」</title>
+      <link>https://saeeeeru.github.io/project/sal/</link>
+      <pubDate>Fri, 01 Mar 2019 00:00:00 +0900</pubDate>
+      <guid>https://saeeeeru.github.io/project/sal/</guid>
+      <description></description>
+    </item>
+    
+  </channel>
+</rss>

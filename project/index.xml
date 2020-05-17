@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Projects | Yamamuro Saeru</title>
+    <link>https://saeeeeru.github.io/project/</link>
+      <atom:link href="https://saeeeeru.github.io/project/index.xml" rel="self" type="application/rss+xml" />
+    <description>Projects</description>
+    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><lastBuildDate>Thu, 07 May 2020 00:00:00 +0900</lastBuildDate>
+    <image>
+      <url>https://saeeeeru.github.io/images/icon_hu0b7a4cb9992c9ac0e91bd28ffd38dd00_9727_512x512_fill_lanczos_center_2.png</url>
+      <title>Projects</title>
+      <link>https://saeeeeru.github.io/project/</link>
+    </image>
+    
+    <item>
+      <title>LiverpoolAnalyzerの開発</title>
+      <link>https://saeeeeru.github.io/project/liverpoolanalyzer/</link>
+      <pubDate>Thu, 07 May 2020 00:00:00 +0900</pubDate>
+      <guid>https://saeeeeru.github.io/project/liverpoolanalyzer/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>WyScoutAnalyzerの開発</title>
+      <link>https://saeeeeru.github.io/project/wyscoutanalyzer/</link>
+      <pubDate>Fri, 28 Feb 2020 00:00:00 +0900</pubDate>
+      <guid>https://saeeeeru.github.io/project/wyscoutanalyzer/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>アクションの価値から選手を評価する</title>
+      <link>https://saeeeeru.github.io/project/vaep/</link>
+      <pubDate>Sun, 27 Oct 2019 00:00:00 +0900</pubDate>
+      <guid>https://saeeeeru.github.io/project/vaep/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>バルセロナのいままでをパスソナーから視てみる</title>
+      <link>https://saeeeeru.github.io/project/messi2/</link>
+      <pubDate>Tue, 17 Sep 2019 00:00:00 +0900</pubDate>
+      <guid>https://saeeeeru.github.io/project/messi2/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>メッシの今までを視てみる</title>
+      <link>https://saeeeeru.github.io/project/messi1/</link>
+      <pubDate>Thu, 05 Sep 2019 00:00:00 +0900</pubDate>
+      <guid>https://saeeeeru.github.io/project/messi1/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>データで見る2018ロシアW杯「各国のボール保持力・奪取力マップの可視化」</title>
+      <link>https://saeeeeru.github.io/project/sal/</link>
+      <pubDate>Fri, 01 Mar 2019 00:00:00 +0900</pubDate>
+      <guid>https://saeeeeru.github.io/project/sal/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>フォーメーションを自動で検知する </title>
+      <link>https://saeeeeru.github.io/project/automatic_formation_detection/</link>
+      <pubDate>Thu, 13 Dec 2018 00:00:00 +0900</pubDate>
+      <guid>https://saeeeeru.github.io/project/automatic_formation_detection/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>#自分の人生を変えた名勝負 ランキング</title>
+      <link>https://saeeeeru.github.io/project/best_match/</link>
+      <pubDate>Thu, 29 Nov 2018 00:00:00 +0900</pubDate>
+      <guid>https://saeeeeru.github.io/project/best_match/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>JSAA Analytics Challenge Cup 2018 優秀賞</title>
+      <link>https://saeeeeru.github.io/project/jacc2018/</link>
+      <pubDate>Sun, 04 Nov 2018 00:00:00 +0900</pubDate>
+      <guid>https://saeeeeru.github.io/project/jacc2018/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>J1残留争い真っ只中のクラブを分析する</title>
+      <link>https://saeeeeru.github.io/project/wordcloud/</link>
+      <pubDate>Thu, 20 Sep 2018 00:00:00 +0900</pubDate>
+      <guid>https://saeeeeru.github.io/project/wordcloud/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>FIFA18の能力値を世界地図にしてみた</title>
+      <link>https://saeeeeru.github.io/project/fifa18_2/</link>
+      <pubDate>Thu, 19 Jul 2018 00:00:00 +0900</pubDate>
+      <guid>https://saeeeeru.github.io/project/fifa18_2/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>FIFA18の能力値から読み解く日本の現在地</title>
+      <link>https://saeeeeru.github.io/project/fifa18_1/</link>
+      <pubDate>Tue, 03 Jul 2018 00:00:00 +0900</pubDate>
+      <guid>https://saeeeeru.github.io/project/fifa18_1/</guid>
+      <description></description>
+    </item>
+    
+  </channel>
+</rss>

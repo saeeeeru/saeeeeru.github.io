@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>time-series analysis | Yamamuro Saeru</title>
+    <link>https://saeeeeru.github.io/tag/time-series-analysis/</link>
+      <atom:link href="https://saeeeeru.github.io/tag/time-series-analysis/index.xml" rel="self" type="application/rss+xml" />
+    <description>time-series analysis</description>
+    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><lastBuildDate>Sat, 03 Mar 2018 00:00:00 +0900</lastBuildDate>
+    <image>
+      <url>https://saeeeeru.github.io/images/icon_hu0b7a4cb9992c9ac0e91bd28ffd38dd00_9727_512x512_fill_lanczos_center_2.png</url>
+      <title>time-series analysis</title>
+      <link>https://saeeeeru.github.io/tag/time-series-analysis/</link>
+    </image>
+    
+    <item>
+      <title>深層学習を用いた時系列データの要約と分類</title>
+      <link>https://saeeeeru.github.io/publication/deim2018/</link>
+      <pubDate>Sat, 03 Mar 2018 00:00:00 +0900</pubDate>
+      <guid>https://saeeeeru.github.io/publication/deim2018/</guid>
+      <description></description>
+    </item>
+    
+  </channel>
+</rss>

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Gaussian Process | Yamamuro Saeru</title>
+    <link>https://saeeeeru.github.io/ja/tag/gaussian-process/</link>
+      <atom:link href="https://saeeeeru.github.io/ja/tag/gaussian-process/index.xml" rel="self" type="application/rss+xml" />
+    <description>Gaussian Process</description>
+    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>ja</language><lastBuildDate>Sun, 12 May 2019 00:00:00 +0900</lastBuildDate>
+    <image>
+      <url>https://saeeeeru.github.io/img/avatar.png</url>
+      <title>Gaussian Process</title>
+      <link>https://saeeeeru.github.io/ja/tag/gaussian-process/</link>
+    </image>
+    
+    <item>
+      <title>Sports Analyst Meetup #2にてLT登壇</title>
+      <link>https://saeeeeru.github.io/ja/talk/spoana2/</link>
+      <pubDate>Sun, 12 May 2019 00:00:00 +0900</pubDate>
+      <guid>https://saeeeeru.github.io/ja/talk/spoana2/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>データで見る2018ロシアW杯「各国のボール保持力・奪取力マップの可視化」</title>
+      <link>https://saeeeeru.github.io/ja/project/sal/</link>
+      <pubDate>Fri, 01 Mar 2019 00:00:00 +0900</pubDate>
+      <guid>https://saeeeeru.github.io/ja/project/sal/</guid>
+      <description></description>
+    </item>
+    
+  </channel>
+</rss>

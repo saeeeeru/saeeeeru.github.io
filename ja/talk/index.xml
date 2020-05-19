@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Recent &amp; Upcoming Talks | Yamamuro Saeru</title>
+    <link>https://saeeeeru.github.io/ja/talk/</link>
+      <atom:link href="https://saeeeeru.github.io/ja/talk/index.xml" rel="self" type="application/rss+xml" />
+    <description>Recent &amp; Upcoming Talks</description>
+    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>ja</language><lastBuildDate>Sat, 02 Nov 2019 00:00:00 +0900</lastBuildDate>
+    <image>
+      <url>https://saeeeeru.github.io/img/avatar.png</url>
+      <title>Recent &amp; Upcoming Talks</title>
+      <link>https://saeeeeru.github.io/ja/talk/</link>
+    </image>
+    
+    <item>
+      <title>Sports Analyst Meetup #5にてLT登壇</title>
+      <link>https://saeeeeru.github.io/ja/talk/spoana5/</link>
+      <pubDate>Sat, 02 Nov 2019 00:00:00 +0900</pubDate>
+      <guid>https://saeeeeru.github.io/ja/talk/spoana5/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>sports IoT#1にてLT登壇</title>
+      <link>https://saeeeeru.github.io/ja/talk/iotlt1/</link>
+      <pubDate>Fri, 01 Nov 2019 00:00:00 +0900</pubDate>
+      <guid>https://saeeeeru.github.io/ja/talk/iotlt1/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Sports Analyst Meetup #3にてLT登壇</title>
+      <link>https://saeeeeru.github.io/ja/talk/spoana3/</link>
+      <pubDate>Sun, 30 Jun 2019 00:00:00 +0900</pubDate>
+      <guid>https://saeeeeru.github.io/ja/talk/spoana3/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Sports Analyst Meetup #2にてLT登壇</title>
+      <link>https://saeeeeru.github.io/ja/talk/spoana2/</link>
+      <pubDate>Sun, 12 May 2019 00:00:00 +0900</pubDate>
+      <guid>https://saeeeeru.github.io/ja/talk/spoana2/</guid>
+      <description></description>
+    </item>
+    
+  </channel>
+</rss>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Causal Inference | Yamamuro Saeru</title>
+    <link>https://saeeeeru.github.io/ja/tag/causal-inference/</link>
+      <atom:link href="https://saeeeeru.github.io/ja/tag/causal-inference/index.xml" rel="self" type="application/rss+xml" />
+    <description>Causal Inference</description>
+    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>ja</language><lastBuildDate>Sun, 30 Jun 2019 00:00:00 +0900</lastBuildDate>
+    <image>
+      <url>https://saeeeeru.github.io/img/avatar.png</url>
+      <title>Causal Inference</title>
+      <link>https://saeeeeru.github.io/ja/tag/causal-inference/</link>
+    </image>
+    
+    <item>
+      <title>Sports Analyst Meetup #3にてLT登壇</title>
+      <link>https://saeeeeru.github.io/ja/talk/spoana3/</link>
+      <pubDate>Sun, 30 Jun 2019 00:00:00 +0900</pubDate>
+      <guid>https://saeeeeru.github.io/ja/talk/spoana3/</guid>
+      <description></description>
+    </item>
+    
+  </channel>
+</rss>

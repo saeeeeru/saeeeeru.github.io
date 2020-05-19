@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Posts | Yamamuro Saeru</title>
+    <link>https://saeeeeru.github.io/ja/post/</link>
+      <atom:link href="https://saeeeeru.github.io/ja/post/index.xml" rel="self" type="application/rss+xml" />
+    <description>Posts</description>
+    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>ja</language>
+    <image>
+      <url>https://saeeeeru.github.io/img/avatar.png</url>
+      <title>Posts</title>
+      <link>https://saeeeeru.github.io/ja/post/</link>
+    </image>
+    
+  </channel>
+</rss>

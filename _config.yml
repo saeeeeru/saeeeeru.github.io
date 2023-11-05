@@ -3,11 +3,11 @@ title: さえない / Yamamuro Saeru
 bio: サッカー狂のデータサイエンティスト。本業はスタートアップのアプリケーションエンジニア。
 
 # twitter summary info
-description: A blog about technology and stuff related
+description: さえない / Yamamuro Saeruのポートフォリオ
 
 # if it's an external image, update below for true
 # better with square images
-external-image: false
+external-image: true
 picture: assets/images/profile.jpg
 
 # your site color theme, true for dark theme,

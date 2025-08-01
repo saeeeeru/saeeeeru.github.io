@@ -31,10 +31,11 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add .
+          git add pr-preview/${{ github.event.pull_request.number }} || true
           if git diff --quiet && git diff --staged --quiet; then
             echo "No changes to commit"
           else
             git commit -m "🧹 Remove preview for PR #${{ github.event.pull_request.number }}"
             git push
+
           fi

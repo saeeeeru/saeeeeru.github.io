@@ -1,0 +1,86 @@
+name: Deploy PR Preview
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+permissions:
+  contents: write
+  pull-requests: write
+  pages: write
+  id-token: write
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.0'
+          bundler-cache: false
+
+      - name: Build Jekyll site
+        run: |
+          bundle lock --add-platform x86_64-linux
+          bundle install
+          bundle exec jekyll build --baseurl "/pr-preview/${{ github.event.pull_request.number }}"
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./_site
+          destination_dir: pr-preview/${{ github.event.pull_request.number }}
+          keep_files: true
+
+      - name: Comment PR with preview URL
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const prNumber = context.payload.pull_request.number;
+            const repoName = context.repo.repo;
+            const ownerName = context.repo.owner;
+            const previewUrl = `https://${ownerName}.github.io/${repoName}/pr-preview/${prNumber}/`;
+            
+            const comment = `🚀 **プレビュー環境が作成されました！**
+            
+            プレビューURL: ${previewUrl}
+            
+            このプレビューは、PRが更新されるたびに自動的に更新されます。`;
+            
+            // 既存のコメントを検索
+            const comments = await github.rest.issues.listComments({
+              owner: ownerName,
+              repo: repoName,
+              issue_number: prNumber
+            });
+            
+            const botComment = comments.data.find(comment => 
+              comment.user.type === 'Bot' && 
+              comment.body.includes('プレビュー環境が作成されました')
+            );
+            
+            if (botComment) {
+              // 既存のコメントを更新
+              await github.rest.issues.updateComment({
+                owner: ownerName,
+                repo: repoName,
+                comment_id: botComment.id,
+                body: comment
+              });
+            } else {
+              // 新規コメントを作成
+              await github.rest.issues.createComment({
+                owner: ownerName,
+                repo: repoName,
+                issue_number: prNumber,
+                body: comment
+              });
+            }

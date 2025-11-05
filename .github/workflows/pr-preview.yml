@@ -47,7 +47,7 @@ jobs:
             const prNumber = context.payload.pull_request.number;
             const repoName = context.repo.repo;
             const ownerName = context.repo.owner;
-            const previewUrl = `https://${ownerName}.github.io/${repoName}/pr-preview/${prNumber}/`;
+            const previewUrl = `https://${ownerName}.github.io/pr-preview/${prNumber}/`;
             
             const comment = `🚀 **プレビュー環境が作成されました！**
             

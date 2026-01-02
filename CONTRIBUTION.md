@@ -1,4 +1,5 @@
 # Contributing to the Project
+
 Thank you for considering contributing to this project! We appreciate your interest and help in making this project better. Please take a moment to review the following guidelines to ensure a smooth contribution process.
 
 ## Getting Started

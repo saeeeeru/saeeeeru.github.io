@@ -28,23 +28,25 @@ layout: page
 - **J.Score、PayPay 証券** : 2 年目からは社内副業という形で、事業開発本部(フィンテック)のデータアナリストとして、スコアレンディングのサービスを提供する J.Score と証券取引アプリの PayPay 証券の経営課題や事業部の施策に対するデータ分析・モデル開発を担当
 - **ソフトバンクアカデミア** : ソフトバンクグループの後継者および AI 群戦略を担う事業家を発掘・育成することを目的としたソフトバンクアカデミアでは、主にプレゼンテーションプログラムを通じて帝王学を学ぶ
 
-## 2023/04 ~ 2025/10 : [株式会社 IB](https://hokenbo.com/company)
+### 2023/04 ~ 2025/10 : [株式会社 IB](https://hokenbo.com/company)
 
 - 保険管理のアプリ**保険簿**を提供するスタートアップである IB にて、モバイルアプリのバックエンドと社内管理用 Web アプリのフロントエンドを担当する、テックリードとしてプロダクト開発を牽引
 - 2024 年 3 月より、1 人目データエンジニアとして、trocco/dbt/BigQuery/Looker Studio というスタックで、社内のデータ活用を推進している
 - 2024 年 4 月からは、保険証券の読み取り機能の性能向上を目指して、OCR パイプラインの改善に取り組んでいる
 - 2025 年 6 月以降は、プロダクト開発の垣根を超えて事業の成長にコミットするため、ビジネスオーケストレーターとして、保険会社や保険代理店との連携を推進している
 
-## 2024/04 ~ 2025/06 : [Ubie株式会社](https://ubie.life/)
+### 2024/03 ~ 2025/06 : [Ubie株式会社](https://ubie.life/)（業務委託）
 
-- 2024 年 3 月より、Ubie株式会社 にて、アナリティクスエンジニアとしても業務委託開始。おもにdbt/BigQuery/Looker Studio/Lightdash というスタックで、データエンジニアリングとデータアナリティクスの業務を担当
+- Ubie株式会社にて、アナリティクスエンジニアとして業務委託。おもに dbt/BigQuery/Looker Studio/Lightdash というスタックで、データエンジニアリングとデータアナリティクスの業務を担当
   - プロダクトのデータ分析パイプラインの設計・構築
   - 製薬会社向けのデータ分析レポート提供のためのデータパイプラインの運用
 
-## 2025/11 ~ 現在 : [株式会社LayerX](https://layerx.co.jp/)
+### 2025/11 ~ 現在 : [株式会社LayerX](https://layerx.co.jp/)
 
-- 2025 年 11 月より、株式会社 LayerX の バクラク事業部 にて アナリティクスエンジニアとして、業務開始
-- こっからやっていき
+- バクラク事業部 BizOps部 データグループにて、アナリティクスエンジニアとして「事業成果に直結するデータ基盤」の構築に従事
+- dbt/Snowflake を中心としたデータモデリング、Semantic Layer の設計・実装を担当
+- 入社1ヶ月で社内テックブログを公開：[LayerXのデータ基盤の未来を語るために、最初の1ヶ月でやった3つのこと](https://tech.layerx.co.jp/entry/analytics-engineer-first-30-days)
+- dbt Pythonモデルを活用した外部連携の実装パターンを確立：[LayerXのdbt Pythonモデル活用術](https://tech.layerx.co.jp/entry/dbt-python-external-integration-patterns)
 
 ## スキル
 
@@ -53,4 +55,7 @@ layout: page
 - Scala (Spark)
 - Ruby on Rails (API)
 - React (Next.js, zod, React Hook Form)
-- dbt
+- dbt (including Python models)
+- Snowflake
+- BigQuery
+- Looker Studio / Lightdash

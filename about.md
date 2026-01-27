@@ -43,8 +43,8 @@ layout: page
 
 ### 2025/11 ~ 現在 : [株式会社LayerX](https://layerx.co.jp/)
 
-- バクラク事業部 BizOps部 データグループにて、アナリティクスエンジニアとして「事業成果に直結するデータ基盤」の構築に従事
-- dbt/Snowflake を中心としたデータモデリング、Semantic Layer の設計・実装を担当
+- バクラク事業部 BizOps部 データグループにて、アナリティクスエンジニアとして事業成果を最大出力で出すための Data Enabling を推進
+- dbt/Snowflake を中心としたデータモデリングとデータ基盤の構築を担当
 - 入社1ヶ月で社内テックブログを公開：[LayerXのデータ基盤の未来を語るために、最初の1ヶ月でやった3つのこと](https://tech.layerx.co.jp/entry/analytics-engineer-first-30-days)
 - dbt Pythonモデルを活用した外部連携の実装パターンを確立：[LayerXのdbt Pythonモデル活用術](https://tech.layerx.co.jp/entry/dbt-python-external-integration-patterns)
 

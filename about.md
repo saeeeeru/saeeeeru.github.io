@@ -6,7 +6,7 @@ layout: page
 ![Profile Image]({% if site.external-image %}{{ site.picture }}{% else %}{{ site.url }}/{{ site.picture }}{% endif %})
 
 {: align="center"}
-**さえない = サッカー狂の アナリティクスエンジニア**<br>
+**さえない = サッカー狂のアナリティクスエンジニア**<br>
 
 25/11 より、株式会社 LayerX の バクラク事業部 にて **アナリティクスエンジニア**として、業務開始<br>
 
@@ -31,9 +31,9 @@ layout: page
 ### 2023/04 ~ 2025/10 : [株式会社 IB](https://hokenbo.com/company)
 
 - 保険管理のアプリ**保険簿**を提供するスタートアップである IB にて、モバイルアプリのバックエンドと社内管理用 Web アプリのフロントエンドを担当する、テックリードとしてプロダクト開発を牽引
-- 2024 年 3 月より、1 人目データエンジニアとして、trocco/dbt/BigQuery/Looker Studio というスタックで、社内のデータ活用を推進している
-- 2024 年 4 月からは、保険証券の読み取り機能の性能向上を目指して、OCR パイプラインの改善に取り組んでいる
-- 2025 年 6 月以降は、プロダクト開発の垣根を超えて事業の成長にコミットするため、ビジネスオーケストレーターとして、保険会社や保険代理店との連携を推進している
+- 2024 年 3 月より、1 人目データエンジニアとして、trocco/dbt/BigQuery/Looker Studio というスタックで、社内のデータ活用を推進した
+- 2024 年 4 月からは、保険証券の読み取り機能の性能向上を目指して、OCR パイプラインの改善に取り組んだ
+- 2025 年 6 月以降は、プロダクト開発の垣根を超えて事業の成長にコミットするため、ビジネスオーケストレーターとして、保険会社や保険代理店との連携を推進した
 
 ### 2024/03 ~ 2025/06 : [Ubie株式会社](https://ubie.life/)（業務委託）
 
@@ -43,9 +43,9 @@ layout: page
 
 ### 2025/11 ~ 現在 : [株式会社LayerX](https://layerx.co.jp/)
 
-- バクラク事業部 BizOps部 データグループにて、アナリティクスエンジニアとして事業成果を最大出力で出すための Data Enabling を推進
-- dbt/Snowflake を中心としたデータモデリングとデータ基盤の構築を担当
-- 入社1ヶ月で社内テックブログを公開：[LayerXのデータ基盤の未来を語るために、最初の1ヶ月でやった3つのこと](https://tech.layerx.co.jp/entry/analytics-engineer-first-30-days)
+- バクラク事業部 BizOps部 データグループにて、アナリティクスエンジニアとして事業成果を最大出力で出すための Data Enabling を推進中
+- dbt/Snowflake を中心としたデータモデリングとデータ基盤の構築を担当中
+- 入社1ヶ月で社内テックブログを公開した：[LayerXのデータ基盤の未来を語るために、最初の1ヶ月でやった3つのこと](https://tech.layerx.co.jp/entry/analytics-engineer-first-30-days)
 - dbt Pythonモデルを活用した外部連携の実装パターンをまとめた：[LayerXのdbt Pythonモデル活用術](https://tech.layerx.co.jp/entry/dbt-python-external-integration-patterns)
 
 ## スキル

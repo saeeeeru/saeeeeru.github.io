@@ -43,10 +43,13 @@ layout: page
 
 ### 2025/11 ~ 現在 : [株式会社LayerX](https://layerx.co.jp/)
 
-- バクラク事業部 BizOps部 データグループにて、アナリティクスエンジニアとして事業成果を最大出力で出すための Data Enabling を推進中
-- dbt/Snowflake を中心としたデータモデリングとデータ基盤の構築を担当中
+- バクラク事業部 BizOps部にて、データ基盤を土台に AI を前提とした業務の再設計と、Go To Market 領域の AI × データ施策を推進中
+- dbt/Snowflake を中心とするデータ基盤の構築に加え、インサイドセールスの現場課題に向き合い、AI を活用したシステムの開発・組織への展開に取り組んでいる
 - 入社1ヶ月で社内テックブログを公開した：[LayerXのデータ基盤の未来を語るために、最初の1ヶ月でやった3つのこと](https://tech.layerx.co.jp/entry/analytics-engineer-first-30-days)
 - dbt Pythonモデルを活用した外部連携の実装パターンをまとめた：[LayerXのdbt Pythonモデル活用術](https://tech.layerx.co.jp/entry/dbt-python-external-integration-patterns)
+- dbt Python model と LLM Web Search を使ったデータパイプラインの実装を紹介した：[人手のリサーチをデータパイプラインに。dbt Python model × LLM Web Searchで公開情報をSnowflakeに載せるまで](https://tech.layerx.co.jp/entry/dbt-python-model-llm-web-search-to-snowflake)
+- 入社8ヶ月で仕事の重心が AI へ移った過程を振り返った：[入社から8ヶ月。仕事の重心を AI-Shift してきたアナリティクスエンジニアの記録](https://note.com/deepfoot/n/n122e751eafe2)
+- 2026年7月6日開催のイベントに登壇し、インサイドセールスの AI 活用をシステム開発の視点から紹介した：[AI時代にISが担う仕事とは？— LayerX ISのAI活用最前線とキャリア論 —（イベントレポート）](https://note.layerx.co.jp/n/n7914b122b40c)
 
 ## スキル
 

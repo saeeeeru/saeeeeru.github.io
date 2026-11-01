@@ -1,0 +1,39 @@
+---
+import type { Article } from '../lib/rss';
+import { formatTimestamp, isoTimestamp } from '../lib/format';
+
+interface Props {
+  title: string;
+  url: string;
+  articles: Article[];
+}
+
+const { title, url, articles } = Astro.props;
+---
+
+<section aria-labelledby={`writing-${title}`}>
+  <h3 id={`writing-${title}`} class="text-lg font-semibold leading-snug">
+    <a href={url} target="_blank" rel="noopener noreferrer">
+      {title}<span class="sr-only">（新しいタブで開きます）</span>
+    </a>
+  </h3>
+  {
+    articles.length > 0 && (
+      <ol class="mt-3 space-y-3">
+        {articles.map((article) => (
+          <li>
+            <a href={article.url} target="_blank" rel="noopener noreferrer">
+              {article.title}
+              <span class="sr-only">（新しいタブで開きます）</span>
+            </a>
+            {article.date && (
+              <time class="meta mt-0.5 block" datetime={isoTimestamp(article.date)}>
+                {formatTimestamp(article.date)}
+              </time>
+            )}
+          </li>
+        ))}
+      </ol>
+    )
+  }
+</section>

@@ -1,0 +1,238 @@
+@import "tailwindcss";
+@import "@fontsource/inter/400.css";
+@import "@fontsource/inter/600.css";
+@import "@fontsource/noto-sans-jp/400.css";
+@import "@fontsource/noto-sans-jp/700.css";
+
+@theme {
+  --font-sans: "Inter", "Noto Sans JP", "Hiragino Sans", "Hiragino Kaku Gothic ProN", Meiryo, "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", sans-serif;
+}
+
+:root {
+  color-scheme: light;
+  --bg: #f6f4ef;
+  --bg-elevated: #fffdf8;
+  --fg: #1c1917;
+  --muted: #5c564e;
+  --line: #e4e0d8;
+  --accent: #3949ab;
+  --accent-soft: #e4e7fb;
+  --shadow: 0 1px 0 rgb(28 25 23 / 0.04);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --bg: #12141a;
+    --bg-elevated: #1b1e27;
+    --fg: #f4f1ea;
+    --muted: #b7b1a8;
+    --line: #2c313c;
+    --accent: #c3ccff;
+    --accent-soft: #23283a;
+    --shadow: 0 1px 0 rgb(255 255 255 / 0.04);
+  }
+}
+
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --bg: #12141a;
+  --bg-elevated: #1b1e27;
+  --fg: #f4f1ea;
+  --muted: #b7b1a8;
+  --line: #2c313c;
+  --accent: #c3ccff;
+  --accent-soft: #23283a;
+  --shadow: 0 1px 0 rgb(255 255 255 / 0.04);
+}
+
+:root[data-theme="light"] {
+  color-scheme: light;
+  --bg: #f6f4ef;
+  --bg-elevated: #fffdf8;
+  --fg: #1c1917;
+  --muted: #5c564e;
+  --line: #e4e0d8;
+  --accent: #3949ab;
+  --accent-soft: #e4e7fb;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--fg);
+  font-family: Inter, "Noto Sans JP", "Hiragino Sans", "Hiragino Kaku Gothic ProN", Meiryo, "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", sans-serif;
+  font-size: 1.0625rem;
+  line-height: 1.85;
+  text-rendering: optimizeLegibility;
+}
+
+::selection {
+  background: var(--accent-soft);
+  color: var(--fg);
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+
+.skip-link {
+  position: absolute;
+  left: 1rem;
+  top: 0;
+  z-index: 20;
+  transform: translateY(-120%);
+  background: var(--bg-elevated);
+  color: var(--fg);
+  padding: 0.5rem 0.75rem;
+  border: 1px solid var(--line);
+}
+
+.skip-link:focus {
+  transform: translateY(0.5rem);
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+a {
+  color: var(--accent);
+  text-decoration-line: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.18em;
+}
+
+a:hover {
+  text-decoration-thickness: 2px;
+}
+
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background: color-mix(in srgb, var(--bg) 88%, transparent);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--line);
+}
+
+.nav-link,
+.brand-link,
+.social-link {
+  color: var(--fg);
+  text-decoration: none;
+}
+
+.nav-link {
+  font-size: 0.92rem;
+}
+
+.nav-link:hover,
+.nav-link:focus-visible {
+  color: var(--accent);
+  text-decoration: underline;
+}
+
+.section {
+  scroll-margin-top: 5.5rem;
+  padding-top: 3.25rem;
+}
+
+.kicker {
+  margin: 0 0 0.85rem;
+  color: var(--accent);
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  line-height: 1.4;
+}
+
+.prose a {
+  text-decoration: underline;
+}
+
+.prose p,
+.prose ul {
+  margin: 0.75rem 0;
+}
+
+.prose ul {
+  padding-left: 1.2rem;
+}
+
+.prose li + li {
+  margin-top: 0.35rem;
+}
+
+.prose h2 {
+  margin: 1.6rem 0 0.4rem;
+  font-size: 1.15rem;
+  line-height: 1.5;
+}
+
+.card {
+  background: var(--bg-elevated);
+  border: 1px solid var(--line);
+  box-shadow: var(--shadow);
+}
+
+.meta {
+  color: var(--muted);
+  font-size: 0.86rem;
+  line-height: 1.6;
+}
+
+.theme-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--bg-elevated);
+  color: var(--fg);
+  cursor: pointer;
+}
+
+.theme-toggle .icon-moon {
+  display: none;
+}
+
+:root[data-theme="dark"] .theme-toggle .icon-sun {
+  display: none;
+}
+
+:root[data-theme="dark"] .theme-toggle .icon-moon {
+  display: block;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .theme-toggle .icon-sun {
+    display: none;
+  }
+
+  :root:not([data-theme="light"]) .theme-toggle .icon-moon {
+    display: block;
+  }
+}

@@ -1,0 +1,77 @@
+---
+import '../styles/global.css';
+import { profile } from '../data/profile';
+import { absoluteUrl, isPreview, withBase } from '../lib/url';
+
+interface Props {
+  title: string;
+  description?: string;
+  path?: string;
+}
+
+const { title, description = profile.description, path = Astro.url.pathname } = Astro.props;
+const canonical = absoluteUrl(path, Astro.site);
+const image = absoluteUrl(profile.image, Astro.site);
+const sameAs = profile.social.filter((item) => item.href.startsWith('http')).map((item) => item.href);
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: 'Yamamuro Saeru',
+  alternateName: ['さえない', profile.name],
+  url: profile.site,
+  image,
+  jobTitle: profile.jobTitle,
+  email: 'saeeeeru29@gmail.com',
+  worksFor: {
+    '@type': 'Organization',
+    name: profile.now.org,
+    url: profile.now.orgUrl,
+  },
+  sameAs,
+};
+---
+
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <link rel="icon" href={withBase('/favicon.ico')} sizes="any" />
+    <link rel="icon" type="image/png" sizes="32x32" href={withBase('/favicon-32x32.png')} />
+    <link rel="apple-touch-icon" href={withBase('/apple-touch-icon.png')} />
+    <meta name="theme-color" content="#f6f4ef" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#12141a" media="(prefers-color-scheme: dark)" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="ja_JP" />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={image} />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:site" content="@saeeeeru" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={image} />
+    {isPreview && <meta name="robots" content="noindex, nofollow" />}
+    <link rel="sitemap" href={withBase('/sitemap-index.xml')} />
+    <link rel="alternate" type="application/rss+xml" title={profile.name} href={withBase('/feed.xml')} />
+    <script is:inline>
+      (function () {
+        try {
+          var stored = localStorage.getItem('theme');
+          if (stored === 'light' || stored === 'dark') {
+            document.documentElement.setAttribute('data-theme', stored);
+          }
+        } catch (e) {}
+      })();
+    </script>
+    <script type="application/ld+json" set:html={JSON.stringify(jsonLd).replace(/</g, '\\u003c')} />
+  </head>
+  <body>
+    <a class="skip-link" href="#content">本文へスキップ</a>
+    <slot />
+  </body>
+</html>

@@ -1,0 +1,18 @@
+---
+import Base from '../layouts/Base.astro';
+import SiteHeader from '../components/SiteHeader.astro';
+import SiteFooter from '../components/SiteFooter.astro';
+import { profile } from '../data/profile';
+import { withBase } from '../lib/url';
+---
+
+<Base title={`ページが見つかりません | ${profile.name}`} description="ページが見つかりません">
+  <SiteHeader />
+  <main id="content" class="mx-auto max-w-2xl px-5 py-20">
+    <h1 class="text-3xl font-semibold tracking-tight">ページが見つかりません</h1>
+    <p class="mt-4">
+      <a href={withBase('/')}>ホームへ戻る</a>
+    </p>
+  </main>
+  <SiteFooter />
+</Base>

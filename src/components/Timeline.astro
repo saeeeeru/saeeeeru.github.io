@@ -1,0 +1,49 @@
+---
+import type { TimelineEntry } from '../data/profile';
+import { normalizePoint } from '../data/profile';
+import { renderInline } from '../lib/inline';
+
+interface Props {
+  entries: TimelineEntry[];
+}
+
+const { entries } = Astro.props;
+---
+
+<ol class="space-y-8">
+  {
+    entries.map((entry) => (
+      <li>
+        <p class="meta">{entry.period}</p>
+        <h3 class="text-xl font-semibold leading-snug">
+          {entry.url ? (
+            <a href={entry.url} target="_blank" rel="noopener noreferrer">
+              {entry.org}
+              <span class="sr-only">（新しいタブで開きます）</span>
+            </a>
+          ) : (
+            entry.org
+          )}
+          {entry.suffix && <span class="font-normal text-[var(--muted)]">{entry.suffix}</span>}
+        </h3>
+        <ul class="mt-2 list-disc space-y-2 pl-5">
+          {entry.points.map((point) => {
+            const item = normalizePoint(point);
+            return (
+              <li>
+                <span set:html={renderInline(item.text)} />
+                {item.children.length > 0 && (
+                  <ul class="mt-1 list-disc space-y-1 pl-5">
+                    {item.children.map((child) => (
+                      <li set:html={renderInline(child)} />
+                    ))}
+                  </ul>
+                )}
+              </li>
+            );
+          })}
+        </ul>
+      </li>
+    ))
+  }
+</ol>

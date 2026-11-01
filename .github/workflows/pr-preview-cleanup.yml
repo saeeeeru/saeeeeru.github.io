@@ -6,36 +6,74 @@ on:
 
 permissions:
   contents: write
-  pages: write
+  pages: read
+
+concurrency:
+  group: gh-pages-publish
+  cancel-in-progress: false
 
 jobs:
   cleanup:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout gh-pages branch
+      - name: Read Pages publishing source
+        id: pages
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          if gh api "repos/${GITHUB_REPOSITORY}/pages" > /tmp/pages.json; then
+            echo "build_type=$(jq -r '.build_type // "unknown"' /tmp/pages.json)" >> "$GITHUB_OUTPUT"
+            echo "source_branch=$(jq -r '.source.branch // "unknown"' /tmp/pages.json)" >> "$GITHUB_OUTPUT"
+          else
+            echo "build_type=unknown" >> "$GITHUB_OUTPUT"
+            echo "source_branch=unknown" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Checkout gh-pages
         uses: actions/checkout@v4
         with:
           ref: gh-pages
+          path: gh-pages-publish
           token: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Remove preview directory
+      - name: Remove preview from gh-pages
+        working-directory: gh-pages-publish
+        env:
+          PR_NUMBER: ${{ github.event.pull_request.number }}
         run: |
-          if [ -d "pr-preview/${{ github.event.pull_request.number }}" ]; then
-            rm -rf pr-preview/${{ github.event.pull_request.number }}
-            echo "Preview directory removed"
-          else
-            echo "Preview directory not found"
+          set -euo pipefail
+          if [ ! -d "pr-preview/${PR_NUMBER}" ]; then
+            echo "gh-pages preview directory not found"
+            exit 0
           fi
-
-      - name: Commit and push cleanup
-        run: |
           git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add pr-preview/${{ github.event.pull_request.number }} || true
-          if git diff --quiet && git diff --staged --quiet; then
-            echo "No changes to commit"
-          else
-            git commit -m "🧹 Remove preview for PR #${{ github.event.pull_request.number }}"
-            git push
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git rm -rf "pr-preview/${PR_NUMBER}"
+          git commit -m "Remove preview for PR #${PR_NUMBER}"
+          git push origin HEAD:gh-pages
 
+      - name: Checkout main
+        if: steps.pages.outputs.build_type == 'legacy' && steps.pages.outputs.source_branch == 'main'
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          path: main-preview
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Remove preview from main
+        if: steps.pages.outputs.build_type == 'legacy' && steps.pages.outputs.source_branch == 'main'
+        working-directory: main-preview
+        env:
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+        run: |
+          set -euo pipefail
+          if [ ! -d "pr-preview/${PR_NUMBER}" ]; then
+            echo "main preview directory not found"
+            exit 0
           fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git rm -rf "pr-preview/${PR_NUMBER}"
+          git commit -m "Remove preview for PR #${PR_NUMBER} [skip ci]"
+          git pull --rebase origin main
+          git push origin HEAD:main

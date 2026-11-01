@@ -1,0 +1,149 @@
+# プロフィールの単一ソース。
+# Now を変えるときは now を、職歴は career、学歴は education を編集する。
+# 配列の並びがページの表示順。
+
+name: さえない / Yamamuro Saeru
+oneLiner: サッカー狂のアナリティクスエンジニア
+description: さえない / Yamamuro Saeruのポートフォリオ
+site: https://saeeeeru.github.io
+image: /assets/images/profile.jpg
+imageAlt: さえない / Yamamuro Saeru
+jobTitle: アナリティクスエンジニア
+
+intro:
+  - "**さえない = サッカー狂のアナリティクスエンジニア**"
+  - "株式会社 LayerX にて **アナリティクスエンジニア**として、コーポレートエンジニアリングとプロダクトグロースを兼務"
+  - "プライベートでは、高校までのサッカーの経験と大学院でのデータ解析の研究を活かした**サッカーの定量分析への挑戦**を続けつつ、本質的なサッカー好きの心を大切に偏りなく高校・J・欧州サッカーを見るだけでなく、たまにトーマス・ミュラーやフィリポ・インザーギのようなオフ・ザ・ボーラーとしての動きを個人参加型のフットボールで披露する一面も。憧れの選手は柿谷曜一朗だが、敬愛する監督はシメオネという矛盾を抱えている。"
+
+now:
+  asOf: "2026/10"
+  lead: "アナリティクスエンジニアとして、コーポレートエンジニアリングとプロダクトグロースを兼務"
+  org: 株式会社LayerX
+  orgUrl: https://layerx.co.jp/
+  items:
+    - label: AI-GTM
+      detail: Go To Market 領域の AI × データ施策
+    - label: コーポレートエンジニアリング
+    - label: プロダクトグロース
+
+social:
+  - name: GitHub
+    href: https://github.com/saeeeeru
+  - name: X
+    href: https://twitter.com/saeeeeru
+  - name: note
+    href: https://note.com/deepfoot
+  - name: sizu
+    href: https://sizu.me/saeeeeru
+  - name: Facebook
+    href: https://facebook.com/saeru.yamamuro
+  - name: Instagram
+    href: https://instagram.com/saenaidesu
+  - name: LinkedIn
+    href: https://www.linkedin.com/in/saeru-yamamuro-b44a47186
+  - name: Email
+    href: mailto:saeeeeru29@gmail.com
+
+writing:
+  limit: 5
+  note:
+    title: note
+    url: https://note.com/deepfoot
+    feed: https://note.com/deepfoot/rss
+  sizu:
+    title: sizu
+    url: https://sizu.me/saeeeeru
+    feed: https://sizu.me/saeeeeru/rss
+
+github:
+  user: saeeeeru
+  exclude:
+    - saeeeeru.github.io
+
+pinned:
+  - dtc-tensorflow
+  - MessiAnalyzer
+  - WyscoutAnalyzer
+  - StatsbombAnalyzer
+  - ScrapingFromJLeagueData
+  - statsbomb-to-bigquery
+
+themes:
+  - id: soccer-data
+    title: サッカー × データ
+    summary: "公開されているサッカーデータセットを分析する。J.League Data Site から、歴代得点ランキングと出場時間記録をスクレイピングし、EDA する。statsbomb-opendata を BigQuery にインポートする。"
+    repos:
+      - MessiAnalyzer
+      - WyscoutAnalyzer
+      - StatsbombAnalyzer
+      - ScrapingFromJLeagueData
+      - statsbomb-to-bigquery
+    writeups:
+      - soccer-open-data-analysis
+      - scraping-from-jleague-data
+      - statsbomb-to-bigquery
+
+career:
+  - period: "2025/11 ~ 現在"
+    org: 株式会社LayerX
+    url: https://layerx.co.jp/
+    points:
+      - "2025/11 ~ 2026/10 : バクラク事業部 BizOps部にて、データ基盤を土台に AI を前提とした業務の再設計と、Go To Market 領域の AI × データ施策を推進した"
+      - "dbt/Snowflake を中心とするデータ基盤の構築に加え、インサイドセールスの現場課題に向き合い、AI を活用したシステムの開発・組織への展開に取り組んだ"
+      - "入社1ヶ月で社内テックブログを公開した：[LayerXのデータ基盤の未来を語るために、最初の1ヶ月でやった3つのこと](https://tech.layerx.co.jp/entry/analytics-engineer-first-30-days)"
+      - "dbt Pythonモデルを活用した外部連携の実装パターンをまとめた：[LayerXのdbt Pythonモデル活用術](https://tech.layerx.co.jp/entry/dbt-python-external-integration-patterns)"
+      - "キーボードだけで操作する開発環境をまとめた：[キーボードだけですべてを操作する 【さえない開発環境2026】](https://note.com/deepfoot/n/ncd72ed50395c)"
+      - "dbt Python model と LLM Web Search を使ったデータパイプラインの実装を紹介した：[人手のリサーチをデータパイプラインに。dbt Python model × LLM Web Searchで公開情報をSnowflakeに載せるまで](https://tech.layerx.co.jp/entry/dbt-python-model-llm-web-search-to-snowflake)"
+      - "入社8ヶ月で仕事の重心が AI へ移った過程を振り返った：[入社から8ヶ月。仕事の重心を AI-Shift してきたアナリティクスエンジニアの記録](https://note.com/deepfoot/n/n122e751eafe2)"
+      - "2026年7月6日開催のイベントに登壇し、インサイドセールスの AI 活用をシステム開発の視点から紹介した：[AI時代にISが担う仕事とは？— LayerX ISのAI活用最前線とキャリア論 —（イベントレポート）](https://note.layerx.co.jp/n/n7914b122b40c)"
+      - "2026/10 ~ 現在 : アナリティクスエンジニアとして、コーポレートエンジニアリングとプロダクトグロースを兼務"
+
+  - period: "2024/03 ~ 2025/06"
+    org: Ubie株式会社
+    url: https://ubie.life/
+    suffix: "（業務委託）"
+    points:
+      - text: "Ubie株式会社にて、アナリティクスエンジニアとして業務委託。おもに dbt/BigQuery/Looker Studio/Lightdash というスタックで、データエンジニアリングとデータアナリティクスの業務を担当"
+        children:
+          - "プロダクトのデータ分析パイプラインの設計・構築"
+          - "製薬会社向けのデータ分析レポート提供のためのデータパイプラインの運用"
+
+  - period: "2023/04 ~ 2025/10"
+    org: 株式会社 IB
+    url: https://hokenbo.com/company
+    points:
+      - "保険管理のアプリ**保険簿**を提供するスタートアップである IB にて、モバイルアプリのバックエンドと社内管理用 Web アプリのフロントエンドを担当する、テックリードとしてプロダクト開発を牽引"
+      - "2024 年 3 月より、1 人目データエンジニアとして、trocco/dbt/BigQuery/Looker Studio というスタックで、社内のデータ活用を推進した"
+      - "2024 年 4 月からは、保険証券の読み取り機能の性能向上を目指して、OCR パイプラインの改善に取り組んだ"
+      - "2025 年 6 月以降は、プロダクト開発の垣根を超えて事業の成長にコミットするため、ビジネスオーケストレーターとして、保険会社や保険代理店との連携を推進した"
+
+  - period: "2019/04 ~ 2023/03"
+    org: ソフトバンク株式会社
+    url: https://www.softbank.jp/corp/aboutus/profile/
+    points:
+      - "**全国うごき統計** : 人流データを可視化する全国うごき統計のリリースに向けた開発と、生成されたデータを用いた予測モデルの新規開発、品質監視・運用に対して、データエンジニアとデータサイエンティストの両面で貢献"
+      - "**J.Score、PayPay 証券** : 2 年目からは社内副業という形で、事業開発本部(フィンテック)のデータアナリストとして、スコアレンディングのサービスを提供する J.Score と証券取引アプリの PayPay 証券の経営課題や事業部の施策に対するデータ分析・モデル開発を担当"
+      - "**ソフトバンクアカデミア** : ソフトバンクグループの後継者および AI 群戦略を担う事業家を発掘・育成することを目的としたソフトバンクアカデミアでは、主にプレゼンテーションプログラムを通じて帝王学を学ぶ"
+
+education:
+  - period: "2013/04 ~ 2017/03"
+    org: "熊本大学 工学部 情報電気電子工学科、2017/04 ~ 2019/03 : 熊本大学院 自然研究科"
+    points:
+      - "時系列データの解析技術を研究する櫻井研究室で、スマート工場の実現に向けた共同研究プロジェクトにて、IoT センサーデータに対する時系列モデルと深層学習を組み合わせた技術を開発。共同研究先とのプレスリリース・特許申請という結果を残す"
+
+  - period: "2010/04 ~ 2013/03"
+    org: 東福岡高等学校 サッカー部
+    url: https://higashifc.com/
+    points:
+      - "**赤い彗星**と呼ばれる東福岡高校サッカー部にて A チームでプレイしながら、国立に現役合格した経験から文武両道への高い意識を持つ"
+
+skills:
+  - Python (pandas, plotly)
+  - SQL
+  - Scala (Spark)
+  - Ruby on Rails (API)
+  - React (Next.js, zod, React Hook Form)
+  - dbt (including Python models)
+  - Snowflake
+  - BigQuery
+  - Looker Studio / Lightdash

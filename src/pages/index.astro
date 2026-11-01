@@ -1,0 +1,172 @@
+---
+import { getCollection, type CollectionEntry } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import SiteHeader from '../components/SiteHeader.astro';
+import SiteFooter from '../components/SiteFooter.astro';
+import SocialLinks from '../components/SocialLinks.astro';
+import WritingList from '../components/WritingList.astro';
+import Timeline from '../components/Timeline.astro';
+import RepoMeta from '../components/RepoMeta.astro';
+import { profile } from '../data/profile';
+import { renderInline } from '../lib/inline';
+import { loadWriting } from '../lib/feeds';
+import { loadRepos, repoByName, type Repo } from '../lib/repos';
+import { formatDay } from '../lib/format';
+import { withBase } from '../lib/url';
+
+const writing = await loadWriting();
+const repos = await loadRepos();
+const byName = repoByName(repos);
+const projects = (await getCollection('projects')).sort(
+  (a, b) => b.data.date.valueOf() - a.data.date.valueOf(),
+);
+const projectsById = new Map(projects.map((entry) => [entry.id, entry]));
+const excluded = new Set([...profile.github.exclude, ...profile.pinned]);
+const otherRepos = repos
+  .filter((repo) => !excluded.has(repo.name))
+  .sort((a, b) => (a.updated < b.updated ? 1 : -1));
+
+const themeIds = new Set(profile.themes.flatMap((theme) => theme.writeups));
+const otherWriteups = projects.filter((entry) => !themeIds.has(entry.id));
+
+function repoHref(name: string, repo: Repo | undefined): string {
+  return repo?.url ?? `https://github.com/${profile.github.user}/${name}`;
+}
+
+function writeupHref(entry: CollectionEntry<'projects'>): string {
+  return withBase(`/${entry.id}/`);
+}
+---
+
+<Base title={profile.name} description={profile.description} path="/">
+  <SiteHeader />
+  <main id="content" class="mx-auto max-w-2xl px-5 pb-8">
+    <section class="pt-12 sm:pt-16">
+      <div class="flex items-start gap-5">
+        <img
+          class="h-20 w-20 shrink-0 rounded-full object-cover sm:h-24 sm:w-24"
+          src={withBase(profile.image)}
+          alt={profile.imageAlt}
+          width="96"
+          height="96"
+        />
+        <div>
+          <h1 class="text-4xl font-semibold leading-tight tracking-tight sm:text-5xl">{profile.name}</h1>
+          <p class="mt-2 text-lg text-[var(--muted)]">{profile.oneLiner}</p>
+        </div>
+      </div>
+      <div class="prose mt-8 space-y-4">
+        {profile.intro.map((paragraph) => <p set:html={renderInline(paragraph)} />)}
+      </div>
+      <div class="mt-6">
+        <SocialLinks />
+      </div>
+    </section>
+
+    <section id="now" class="section">
+      <h2 class="kicker">Now</h2>
+      <p class="meta">{profile.now.asOf}</p>
+      <p class="mt-2">{profile.now.lead}</p>
+      <ul class="mt-5 space-y-4">
+        {
+          profile.now.items.map((item) => (
+            <li>
+              <p class="font-semibold text-[var(--accent)]">{item.label}</p>
+              {item.detail && <p>{item.detail}</p>}
+            </li>
+          ))
+        }
+      </ul>
+    </section>
+
+    <section id="writing" class="section">
+      <h2 class="kicker">Writing</h2>
+      <div class="space-y-8">
+        <WritingList title={profile.writing.note.title} url={profile.writing.note.url} articles={writing.note} />
+        <WritingList title={profile.writing.sizu.title} url={profile.writing.sizu.url} articles={writing.sizu} />
+      </div>
+    </section>
+
+    <section id="projects" class="section">
+      <h2 class="kicker">Projects</h2>
+      <div class="space-y-10">
+        {
+          profile.themes.map((theme) => (
+            <section class="card rounded-2xl px-5 py-5" aria-labelledby={`theme-${theme.id}`}>
+              <h3 id={`theme-${theme.id}`} class="text-2xl font-semibold leading-snug">
+                {theme.title}
+              </h3>
+              <p class="mt-2">{theme.summary}</p>
+              <div class="mt-4">
+                {theme.repos.map((name) => (
+                  <RepoMeta name={name} repo={byName.get(name)} href={repoHref(name, byName.get(name))} />
+                ))}
+              </div>
+              <ul class="mt-4 space-y-2">
+                {theme.writeups.map((id) => {
+                  const entry = projectsById.get(id);
+                  if (!entry) return null;
+                  return (
+                    <li>
+                      <a href={writeupHref(entry)}>{entry.data.title}</a>
+                      <span class="meta"> · {formatDay(entry.data.date)}</span>
+                    </li>
+                  );
+                })}
+              </ul>
+            </section>
+          ))
+        }
+
+        {
+          otherWriteups.map((entry) => (
+            <article>
+              <h3 class="text-2xl font-semibold leading-snug">
+                <a href={writeupHref(entry)}>{entry.data.title}</a>
+              </h3>
+              <p class="meta">{formatDay(entry.data.date)}</p>
+              <p class="mt-2">{entry.data.summary}</p>
+              {entry.data.repos.map((name) => (
+                <RepoMeta name={name} repo={byName.get(name)} href={repoHref(name, byName.get(name))} />
+              ))}
+            </article>
+          ))
+        }
+
+        {
+          otherRepos.length > 0 && (
+            <section aria-labelledby="other-repos">
+              <h3 id="other-repos" class="text-2xl font-semibold leading-snug">
+                そのほかの公開リポジトリ
+              </h3>
+              <div class="mt-2">
+                {otherRepos.map((repo) => (
+                  <RepoMeta name={repo.name} repo={repo} href={repo.url} />
+                ))}
+              </div>
+            </section>
+          )
+        }
+      </div>
+    </section>
+
+    <section id="career" class="section">
+      <h2 class="kicker">Career</h2>
+      <p class="mb-4 text-sm font-semibold tracking-wide text-[var(--muted)]">職歴</p>
+      <Timeline entries={profile.career} />
+      <p class="mt-10 mb-4 text-sm font-semibold tracking-wide text-[var(--muted)]">学歴</p>
+      <Timeline entries={profile.education} />
+      <p class="mt-10 text-sm font-semibold tracking-wide text-[var(--muted)]">スキル</p>
+      <ul class="mt-3 flex flex-wrap gap-2">
+        {
+          profile.skills.map((skill) => (
+            <li class="rounded-full border border-[var(--line)] bg-[var(--bg-elevated)] px-3 py-1 text-sm leading-snug">
+              {skill}
+            </li>
+          ))
+        }
+      </ul>
+    </section>
+  </main>
+  <SiteFooter />
+</Base>

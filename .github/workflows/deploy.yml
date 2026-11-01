@@ -1,0 +1,61 @@
+name: Deploy site
+
+on:
+  push:
+    branches: [main]
+    paths-ignore:
+      - 'pr-preview/**'
+  schedule:
+    # Monday 00:00 JST
+    - cron: '0 15 * * 0'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: gh-pages-publish
+  cancel-in-progress: false
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    env:
+      ASTRO_TELEMETRY_DISABLED: '1'
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install and build
+        uses: withastro/action@v5
+        with:
+          node-version: '22'
+          package-manager: npm
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Checkout gh-pages
+        uses: actions/checkout@v4
+        with:
+          ref: gh-pages
+          path: gh-pages-publish
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Publish site, keeping PR previews
+        working-directory: gh-pages-publish
+        run: |
+          set -euo pipefail
+          test -f "$GITHUB_WORKSPACE/dist/index.html"
+          find . -mindepth 1 -maxdepth 1 ! -name pr-preview ! -name .git -exec rm -rf {} +
+          cp -a "$GITHUB_WORKSPACE/dist/." .
+          touch .nojekyll
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          if git diff --cached --quiet; then
+            echo "No site changes to publish"
+            exit 0
+          fi
+          git commit -m "deploy: ${GITHUB_SHA}"
+          git push origin HEAD:gh-pages

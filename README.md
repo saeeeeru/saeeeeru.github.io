@@ -1,63 +1,81 @@
-<p align="center">
-    <h2 align="center">Indigo Minimalist Jekyll Template - <a href="https://sergiokopplin.github.io/indigo/">Demo</a></h2>
-</p>
+# さえない / Yamamuro Saeru
 
-<p align="center">This is a simple and minimalist template for Jekyll for those who likes to eat noodles.</p>
+Astro と Tailwind CSS で作ったポートフォリオです。公開先は [https://saeeeeru.github.io/](https://saeeeeru.github.io/) です。
 
-***
+## 開発
 
-<p align="center">
-    <b><a href="README.md#what-has-inside">What has inside</a></b>
-    |
-    <b><a href="README.md#setup">Setup</a></b>
-    |
-    <b><a href="README.md#settings">Settings</a></b>
-    |
-    <b><a href="README.md#how-to">How to</a></b>
-</p>
-
-<p align="center">
-    Light and Dark themes.
-</p>
-
-<p align="center">
-    <img src="https://raw.githubusercontent.com/sergiokopplin/indigo/gh-pages/assets/screen-shot.png" />
-</p>
-
-## What has inside
-
-- [Jekyll](https://jekyllrb.com/), [Sass](https://sass-lang.com/) ~[RSCSS](https://rscss.io/)~ and [SVG](https://www.w3.org/Graphics/SVG/);
-- Page Speed: [99~Desktop](https://pagespeed.web.dev/analysis/https-sergiokopplin-github-io-indigo/41axptm3as?utm_source=psi&utm_medium=redirect&form_factor=desktop);
-
-## Setup
-
-0. :star: to the project. :metal:
-1. Fork the project [Indigo](https://github.com/sergiokopplin/indigo/fork)
-2. Edit `_config.yml` with your data
-3. Write some posts :bowtie:
-
-To run locally do the following:
-
-1. Install [Jekyll](https://jekyllrb.com) and [Bundler](https://bundler.io/).
-2. Clone the forked repo on your machine
-3. Enter the cloned folder via terminal and run:
 ```sh
-bundle install
-bundle exec jekyll serve
+npm ci
+npm run dev
 ```
-4. Open it in your browser: [http://localhost:4000](http://localhost:4000)
 
-Or run with [docker](https://github.com/BretFisher/jekyll-serve).
+本番と同じ静的ファイルは `npm run build` で `dist/` に出ます。フィードや GitHub API に届かないときは、コミットしてある `src/data/snapshots/` を使います。ビルドは失敗しません。
 
-## Settings
+```sh
+FEEDS_OFFLINE=1 npm run build
+```
 
-You can customize your site on `_config.yml` file.
+## Now / 経歴の更新
 
-## How To?
+編集するのは `src/data/profile.yaml` だけです。
 
-Check the [FAQ](./FAQ.md).
+- `now.items` … Now に出す項目。`label` と、必要なら `detail`
+- `now.lead` / `now.asOf` … Now のリードと時点
+- `career` … 職歴。並びがそのまま表示順
+- `education` … 学歴
+- `skills` … スキル
+- `social` … ソーシャルリンク
+- `pinned` / `themes` … Projects で手前に出すリポジトリと、サッカー × データのまとまり
 
----
-## License
+プロジェクトの文章は `src/content/projects/` の Markdown です。ファイル名が URL になります（例: `dtc-tensorflow.md` → `/dtc-tensorflow/`）。
 
-[MIT](https://kopplin.mit-license.org/) License © Sérgio Kopplin
+## 自動で取ってくるもの
+
+ビルドのたびに取得します。GitHub Actions は `main` への push と、毎週月曜 0:00 JST の cron で再ビルドします。
+
+| 内容 | 取得元 | 失敗したとき |
+| --- | --- | --- |
+| note の新しい記事 | https://note.com/deepfoot/rss | `src/data/snapshots/note.json`。それも無ければその欄は出さない |
+| sizu の新しい記事 | https://sizu.me/saeeeeru/rss | `src/data/snapshots/sizu.json`。同様 |
+| 公開リポジトリ | GitHub API `users/saeeeeru/repos` | `src/data/snapshots/repos.json` |
+
+fork は一覧に入れていません。`saeeeeru.github.io` 自体も除いています。Actions ではレート制限対策に `GITHUB_TOKEN` を付けます。手元のビルドはトークンなしで動きます。
+
+スナップショットを取り直すときは、ネットワークがある状態で次を実行します。
+
+```sh
+UPDATE_SNAPSHOTS=1 npm run build
+```
+
+## デプロイ
+
+本番は GitHub Actions（`withastro/action`）でビルドし、`gh-pages` ブランチのルートへ出します。PR プレビューは `gh-pages` の `pr-preview/<番号>/` です。
+
+このリポジトリの GitHub Pages は、移行時点では **main ブランチを Jekyll で公開** しています。Astro の成果物を出すには、Settings → Pages → Build and deployment で次に切り替えます。
+
+- Source: Deploy from a branch
+- Branch: `gh-pages` / `/ (root)`
+
+切り替えるタイミングは、`main` へマージしたあとの Deploy site ワークフローが成功してからです。それより前に切り替えると、サイトのルートが空になります。マージしたあとも公開元が `main` のままだと、Jekyll が Astro のソースをビルドしようとして本番が壊れます。
+
+公開元がまだ `main` のあいだ、PR プレビュー用ワークフローは同じファイルを `main` の `pr-preview/<番号>/` にも置きます。いまの公開設定のまま `https://saeeeeru.github.io/pr-preview/<番号>/` が開きます。PR を閉じると消します。
+
+## 旧 URL
+
+投稿はそのままのパスです。
+
+- `/dtc-tensorflow/`
+- `/soccer-open-data-analysis/`
+- `/scraping-from-jleague-data/`
+- `/zenkoku-ugoki-toukei/`
+- `/statsbomb-to-bigquery/`
+
+ページはリダイレクトです。
+
+- `/about/` → `/#career`
+- `/projects/` → `/#projects`
+- `/blog/` → `/#writing`
+- `/tags/` → `/#projects`
+- `/CONTRIBUTION/` → `/`
+
+`/feed.xml` はプロジェクト記事の RSS として残しています。

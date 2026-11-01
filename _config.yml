@@ -44,7 +44,7 @@ email: saeeeeru29@gmail.com
 authors:
   saeeeeru:
     name: さえない / Yamamuro Saeru
-    bio: サッカー狂のアナリティクスエンジニア。LayerX バクラク事業部で AI × データによる業務変革を推進中
+    bio: サッカー狂のアナリティクスエンジニア。LayerX でコーポレートエンジニアリングとプロダクトグロースを兼務
     external-image: true
     picture: assets/images/profile.jpg
     twitter: saeeeeru
@@ -64,6 +64,10 @@ blog: false
 # note configuration
 note: true
 note-url: https://note.com/deepfoot
+
+# sizu configuration
+sizu: true
+sizu-url: https://sizu.me/saeeeeru
 
 # do you want to show the "read time" of the posts?
 read-time: true

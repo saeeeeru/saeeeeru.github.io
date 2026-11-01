@@ -8,7 +8,7 @@ layout: page
 {: align="center"}
 **さえない = サッカー狂のアナリティクスエンジニア**<br>
 
-25/11 より、株式会社 LayerX の バクラク事業部 にて **アナリティクスエンジニア**として、業務開始<br>
+株式会社 LayerX にて **アナリティクスエンジニア**として、コーポレートエンジニアリングとプロダクトグロースを兼務<br>
 
 プライベートでは、高校までのサッカーの経験と大学院でのデータ解析の研究を活かした**サッカーの定量分析への挑戦**を続けつつ、本質的なサッカー好きの心を大切に偏りなく高校・J・欧州サッカーを見るだけでなく、たまにトーマス・ミュラーやフィリポ・インザーギのようなオフ・ザ・ボーラーとしての動きを個人参加型のフットボールで披露する一面も。憧れの選手は柿谷曜一朗だが、敬愛する監督はシメオネという矛盾を抱えている。
 
@@ -43,13 +43,15 @@ layout: page
 
 ### 2025/11 ~ 現在 : [株式会社LayerX](https://layerx.co.jp/)
 
-- バクラク事業部 BizOps部にて、データ基盤を土台に AI を前提とした業務の再設計と、Go To Market 領域の AI × データ施策を推進中
-- dbt/Snowflake を中心とするデータ基盤の構築に加え、インサイドセールスの現場課題に向き合い、AI を活用したシステムの開発・組織への展開に取り組んでいる
+- 2025/11 ~ 2026/10 : バクラク事業部 BizOps部にて、データ基盤を土台に AI を前提とした業務の再設計と、Go To Market 領域の AI × データ施策を推進した
+- dbt/Snowflake を中心とするデータ基盤の構築に加え、インサイドセールスの現場課題に向き合い、AI を活用したシステムの開発・組織への展開に取り組んだ
 - 入社1ヶ月で社内テックブログを公開した：[LayerXのデータ基盤の未来を語るために、最初の1ヶ月でやった3つのこと](https://tech.layerx.co.jp/entry/analytics-engineer-first-30-days)
 - dbt Pythonモデルを活用した外部連携の実装パターンをまとめた：[LayerXのdbt Pythonモデル活用術](https://tech.layerx.co.jp/entry/dbt-python-external-integration-patterns)
+- キーボードだけで操作する開発環境をまとめた：[キーボードだけですべてを操作する 【さえない開発環境2026】](https://note.com/deepfoot/n/ncd72ed50395c)
 - dbt Python model と LLM Web Search を使ったデータパイプラインの実装を紹介した：[人手のリサーチをデータパイプラインに。dbt Python model × LLM Web Searchで公開情報をSnowflakeに載せるまで](https://tech.layerx.co.jp/entry/dbt-python-model-llm-web-search-to-snowflake)
 - 入社8ヶ月で仕事の重心が AI へ移った過程を振り返った：[入社から8ヶ月。仕事の重心を AI-Shift してきたアナリティクスエンジニアの記録](https://note.com/deepfoot/n/n122e751eafe2)
 - 2026年7月6日開催のイベントに登壇し、インサイドセールスの AI 活用をシステム開発の視点から紹介した：[AI時代にISが担う仕事とは？— LayerX ISのAI活用最前線とキャリア論 —（イベントレポート）](https://note.layerx.co.jp/n/n7914b122b40c)
+- 2026/10 ~ 現在 : アナリティクスエンジニアとして、コーポレートエンジニアリングとプロダクトグロースを兼務
 
 ## スキル
 

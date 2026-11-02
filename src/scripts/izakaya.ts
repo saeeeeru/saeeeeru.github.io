@@ -221,9 +221,59 @@ function setupKaraoke(): void {
   });
 }
 
+function setupBottles(): void {
+  document.querySelectorAll<HTMLButtonElement>('[data-bottle-open]').forEach((button) => {
+    const dialog = document.getElementById(button.dataset.bottleOpen ?? '');
+    if (!(dialog instanceof HTMLDialogElement)) return;
+
+    button.addEventListener('click', () => {
+      dialog.showModal();
+      dialog.focus();
+    });
+
+    dialog.addEventListener('click', (event) => {
+      if (event.target === dialog) dialog.close();
+    });
+
+    dialog.addEventListener('close', () => {
+      button.focus();
+    });
+  });
+}
+
+function setupSideways(): void {
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  document.querySelectorAll<HTMLButtonElement>('.scroll-hint').forEach((button) => {
+    const scroller = document.getElementById(button.dataset.scrollTarget ?? '');
+    if (!scroller) {
+      button.hidden = true;
+      return;
+    }
+
+    const update = () => {
+      button.hidden = scroller.scrollWidth <= scroller.clientWidth + 4;
+    };
+    update();
+    if ('ResizeObserver' in window) new ResizeObserver(update).observe(scroller);
+    else window.addEventListener('resize', update);
+
+    button.addEventListener('click', () => {
+      const max = scroller.scrollWidth - scroller.clientWidth;
+      const step = Math.max(scroller.clientWidth * 0.8, 140);
+      const atEnd = scroller.scrollLeft >= max - 8;
+      scroller.scrollTo({
+        left: atEnd ? 0 : Math.min(max, scroller.scrollLeft + step),
+        behavior: reduce ? 'auto' : 'smooth',
+      });
+    });
+  });
+}
+
 setupHours();
 setupReceipt();
 setupKaraoke();
+setupBottles();
+setupSideways();
 document.getElementById('shop-status')?.addEventListener('click', () => {
   if (document.documentElement.classList.contains('enkai')) toggleEnkai();
 });

@@ -6,9 +6,10 @@ import { renderInline } from '../lib/inline';
 interface Props {
   entries: TimelineEntry[];
   kind: 'job' | 'school';
+  id: string;
 }
 
-const { entries, kind } = Astro.props;
+const { entries, kind, id } = Astro.props;
 
 function plain(text: string): string {
   return text.replace(/\[([^\]]+)\]\([^)]+\)/g, '$1').replace(/\*\*/g, '');
@@ -33,56 +34,70 @@ const lengths = entries.map((entry) => months(entry.period));
 const longest = Math.max(...lengths, 1);
 ---
 
-<ul class="shelf">
+<ul class="shelf" id={id}>
   {
     entries.map((entry, index) => {
       const current = entry.period.includes('現在');
       const tag = kind === 'school' ? '卒業' : current ? 'キープ中' : '空き瓶';
       const summary = plain(normalizePoint(entry.points[0]).text);
       const fill = current ? Math.round((lengths[index] / longest) * 100) : 6;
+      const dialogId = `${id}-bottle-${index}`;
+      const titleId = `${dialogId}-title`;
       return (
         <li class="shelf-item">
-          <details class="bottle-card">
-            <summary class="bottle-summary">
-              <span class={`bottle bottle-${index % 4}${current ? '' : ' is-empty'}`} style={`--fill: ${fill}%`} aria-hidden="true"></span>
-              <span class="name-tag">
-                <span class={`keep-tag ${current ? 'is-current' : ''}`}>{tag}</span>
-                <span class="name-tag-org">{entry.org}{entry.suffix ?? ''}</span>
-                <span class="name-tag-period">{entry.period}</span>
-                <span class="name-tag-role">{summary}</span>
-              </span>
-            </summary>
-            <div class="bottle-note">
-              {entry.url && (
-                <p>
-                  <a href={entry.url} target="_blank" rel="noopener noreferrer">
-                    {entry.org}
-                    <span class="sr-only">（新しいタブで開きます）</span>
-                  </a>
-                  {entry.suffix ?? ''}
-                </p>
-              )}
-              <ul>
-                {entry.points.map((point) => {
-                  const item = normalizePoint(point);
-                  return (
-                    <li>
-                      <span set:html={renderInline(item.text)} />
-                      {item.children.length > 0 && (
-                        <ul>
-                          {item.children.map((child) => (
-                            <li set:html={renderInline(child)} />
-                          ))}
-                        </ul>
-                      )}
-                    </li>
-                  );
-                })}
-              </ul>
-            </div>
-          </details>
+          <button
+            type="button"
+            class="bottle-summary"
+            data-bottle-open={dialogId}
+            aria-haspopup="dialog"
+            aria-controls={dialogId}
+          >
+            <span class={`bottle bottle-${index % 4}${current ? '' : ' is-empty'}`} style={`--fill: ${fill}%`} aria-hidden="true"></span>
+            <span class="name-tag">
+              <span class={`keep-tag ${current ? 'is-current' : ''}`}>{tag}</span>
+              <span class="name-tag-org">{entry.org}{entry.suffix ?? ''}</span>
+              <span class="name-tag-period">{entry.period}</span>
+              <span class="name-tag-role">{summary}</span>
+            </span>
+          </button>
+          <dialog id={dialogId} class="bottle-dialog" aria-labelledby={titleId} tabindex="-1">
+            <form method="dialog">
+              <h3 id={titleId}>{entry.org}{entry.suffix ?? ''}</h3>
+              <p class="bottle-dialog-meta">{tag}　{entry.period}</p>
+              <div class="bottle-note">
+                {entry.url && (
+                  <p>
+                    <a href={entry.url} target="_blank" rel="noopener noreferrer">
+                      {entry.org}
+                      <span class="sr-only">（新しいタブで開きます）</span>
+                    </a>
+                    {entry.suffix ?? ''}
+                  </p>
+                )}
+                <ul>
+                  {entry.points.map((point) => {
+                    const item = normalizePoint(point);
+                    return (
+                      <li>
+                        <span set:html={renderInline(item.text)} />
+                        {item.children.length > 0 && (
+                          <ul>
+                            {item.children.map((child) => (
+                              <li set:html={renderInline(child)} />
+                            ))}
+                          </ul>
+                        )}
+                      </li>
+                    );
+                  })}
+                </ul>
+              </div>
+              <button type="submit" class="bottle-close">閉じる</button>
+            </form>
+          </dialog>
         </li>
       );
     })
   }
 </ul>
+<button type="button" class="scroll-hint" data-scroll-target={id} hidden>横に見る</button>

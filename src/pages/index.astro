@@ -9,7 +9,6 @@ import { profile } from '../data/profile';
 import { renderInline } from '../lib/inline';
 import { loadWriting } from '../lib/feeds';
 import { loadRepos, repoByName, type Repo } from '../lib/repos';
-import { formatTimestamp } from '../lib/format';
 import { withBase } from '../lib/url';
 
 const writing = await loadWriting();
@@ -27,33 +26,20 @@ const otherRepos = repos
 const themeIds = new Set(profile.themes.flatMap((theme) => theme.writeups));
 const otherWriteups = projects.filter((entry) => !themeIds.has(entry.id));
 
-const visibleWritingCount = 3;
-
 function shortSkill(skill: string): string {
   const head = skill.split('(')[0]?.trim() ?? skill;
   return head.split('/')[0]?.trim() || skill;
 }
 
-function wareki(date: Date): string {
-  const year = date.getUTCFullYear();
-  const month = date.getUTCMonth() + 1;
-  if (year > 2019 || (year === 2019 && month >= 5)) {
-    const n = year - 2018;
-    return n === 1 ? '令和元年仕込み' : `令和${n}年仕込み`;
-  }
-  return `平成${year - 1988}年仕込み`;
-}
-const articles = [
-  ...writing.note.map((item) => ({ ...item, source: profile.writing.note.title, sourceUrl: profile.writing.note.url })),
-  ...writing.sizu.map((item) => ({ ...item, source: profile.writing.sizu.title, sourceUrl: profile.writing.sizu.url })),
-].sort((a, b) => {
+function byDate<T extends { date?: string }>(a: T, b: T): number {
   if (a.date === b.date) return 0;
   if (!a.date) return 1;
   if (!b.date) return -1;
   return a.date < b.date ? 1 : -1;
-});
-const visibleArticles = articles.slice(0, visibleWritingCount);
-const moreArticles = articles.slice(visibleWritingCount);
+}
+
+const noteArticles = [...writing.note].sort(byDate);
+const sizuArticles = [...writing.sizu].sort(byDate);
 
 function repoHref(name: string, repo: Repo | undefined): string {
   return repo?.url ?? `https://github.com/${profile.github.user}/${name}`;
@@ -84,13 +70,6 @@ function repoHref(name: string, repo: Repo | undefined): string {
       <p class="shop-en">{profile.name}</p>
       <p class="shop-line">{profile.oneLiner}</p>
       <p class="prep-board">仕込み中</p>
-      <a id="noren" class="noren rope" href="#counter">
-        <span class="sr-only">縄のれんをくぐる</span>
-        <span class="rope-row" aria-hidden="true">
-          <span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span>
-        </span>
-        <span class="noren-mark">さえない</span>
-      </a>
       <label class="glass">
         <input class="glass-toggle" type="checkbox" />
         <span class="sr-only">とりあえず生を注ぐ</span>
@@ -105,6 +84,13 @@ function repoHref(name: string, repo: Repo | undefined): string {
           <span class="glass-caption"><span class="tap-long">タップで注ぐ</span><span class="tap-short">注ぐ</span></span>
         </span>
       </label>
+      <a id="noren" class="noren rope" href="#counter">
+        <span class="sr-only">縄のれんをくぐる</span>
+        <span class="rope-row" aria-hidden="true">
+          <span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+        </span>
+        <span class="noren-mark">さえない</span>
+      </a>
     </section>
 
     <div id="counter" class="interior">
@@ -128,64 +114,46 @@ function repoHref(name: string, repo: Repo | undefined): string {
       <section id="writing" class="panel chalkboard" data-receipt="本日のおすすめ">
         <div class="board-head">
           <h2>本日のおすすめ</h2>
-          <p>
+        </div>
+        <p class="enkai-hint"><span class="hint-key">宴会のご予約は ↑↑↓↓←→←→BA</span><span class="hint-tap">提灯を5回たたくと宴会</span></p>
+        <div class="link-group">
+          <h3 class="link-group-title">
             <a href={profile.writing.note.url} target="_blank" rel="noopener noreferrer">
               note<span class="sr-only">（新しいタブで開きます）</span>
             </a>
-            <span aria-hidden="true"> / </span>
+          </h3>
+          <ol class="title-list">
+            {
+              noteArticles.map((article) => (
+                <li>
+                  <a href={article.url} target="_blank" rel="noopener noreferrer">
+                    {article.title}
+                    <span class="sr-only">（新しいタブで開きます）</span>
+                  </a>
+                </li>
+              ))
+            }
+          </ol>
+        </div>
+        <div class="link-group">
+          <h3 class="link-group-title">
             <a href={profile.writing.sizu.url} target="_blank" rel="noopener noreferrer">
               sizu<span class="sr-only">（新しいタブで開きます）</span>
             </a>
-          </p>
-        </div>
-        <p class="enkai-hint"><span class="hint-key">宴会のご予約は ↑↑↓↓←→←→BA</span><span class="hint-tap">提灯を5回たたくと宴会</span></p>
-        <ol class="song-list">
-          {
-            visibleArticles.map((article, index) => (
-              <li>
-                <span class="song-no">{String(index + 1).padStart(2, '0')}</span>
-                <a href={article.url} target="_blank" rel="noopener noreferrer">
-                  {article.title}
-                  <span class="sr-only">（新しいタブで開きます）</span>
-                </a>
-                <span class="song-meta">
-                  {article.date && <time datetime={article.date}>{formatTimestamp(article.date)}</time>}
-                  <span aria-hidden="true">・</span>
-                  <a href={article.sourceUrl} target="_blank" rel="noopener noreferrer">
-                    {article.source}
+          </h3>
+          <ol class="title-list">
+            {
+              sizuArticles.map((article) => (
+                <li>
+                  <a href={article.url} target="_blank" rel="noopener noreferrer">
+                    {article.title}
                     <span class="sr-only">（新しいタブで開きます）</span>
                   </a>
-                </span>
-              </li>
-            ))
-          }
-        </ol>
-        {
-          moreArticles.length > 0 && (
-            <details class="more">
-              <summary>もっと見る（{moreArticles.length}）</summary>
-              <ol class="song-list" start={visibleArticles.length + 1}>
-                {moreArticles.map((article, index) => (
-                  <li>
-                    <span class="song-no">{String(visibleArticles.length + index + 1).padStart(2, '0')}</span>
-                    <a href={article.url} target="_blank" rel="noopener noreferrer">
-                      {article.title}
-                      <span class="sr-only">（新しいタブで開きます）</span>
-                    </a>
-                    <span class="song-meta">
-                      {article.date && <time datetime={article.date}>{formatTimestamp(article.date)}</time>}
-                      <span aria-hidden="true">・</span>
-                      <a href={article.sourceUrl} target="_blank" rel="noopener noreferrer">
-                        {article.source}
-                        <span class="sr-only">（新しいタブで開きます）</span>
-                      </a>
-                    </span>
-                  </li>
-                ))}
-              </ol>
-            </details>
-          )
-        }
+                </li>
+              ))
+            }
+          </ol>
+        </div>
       </section>
       </div>
 
@@ -200,47 +168,54 @@ function repoHref(name: string, repo: Repo | undefined): string {
                   <span class="meibutsu">名物</span>
                 </h3>
                 <div class="wall-note">
-                  <p>{theme.summary}</p>
-                  <ul class="chip-list">
-                    {theme.repos.map((name) => {
-                      const repo = byName.get(name);
-                      return (
-                        <li>
-                          <a href={repoHref(name, repo)} target="_blank" rel="noopener noreferrer">
-                            {name}
-                            <span class="sr-only">（新しいタブで開きます）</span>
-                          </a>
-                          {repo && repo.stars > 0 && <span>★{repo.stars}</span>}
-                        </li>
-                      );
-                    })}
-                  </ul>
-                  <ul class="writeups">
-                    {theme.writeups.map((id) => {
-                      const entry = projectsById.get(id);
-                      if (!entry) return null;
-                      return (
-                        <li>
-                          <a href={withBase(`/${entry.id}/`)}>{entry.data.title}</a>
-                          <time datetime={entry.data.date.toISOString().slice(0, 10)}>{wareki(entry.data.date)}</time>
-                        </li>
-                      );
-                    })}
-                  </ul>
+                  <div class="link-group">
+                    <h4 class="link-group-title">記事</h4>
+                    <ol class="title-list">
+                      {theme.writeups.map((id) => {
+                        const entry = projectsById.get(id);
+                        if (!entry) return null;
+                        return (
+                          <li>
+                            <a href={withBase(`/${entry.id}/`)}>{entry.data.title}</a>
+                          </li>
+                        );
+                      })}
+                    </ol>
+                  </div>
+                  <div class="link-group">
+                    <h4 class="link-group-title">リポジトリ</h4>
+                    <ul class="title-list">
+                      {theme.repos.map((name) => {
+                        const repo = byName.get(name);
+                        return (
+                          <li>
+                            <a href={repoHref(name, repo)} target="_blank" rel="noopener noreferrer">
+                              {name}
+                              <span class="sr-only">（新しいタブで開きます）</span>
+                            </a>
+                          </li>
+                        );
+                      })}
+                    </ul>
+                  </div>
                 </div>
               </article>
             ))
           }
-          <ul class="dish-list">
-            {
-              otherWriteups.map((entry) => (
-                <li>
-                  <a href={withBase(`/${entry.id}/`)}>{entry.data.title}</a>
-                  <span>{wareki(entry.data.date)}</span>
-                </li>
-              ))
-            }
-          </ul>
+          {
+            otherWriteups.length > 0 && (
+              <div class="link-group paper-group">
+                <h3 class="link-group-title">そのほか</h3>
+                <ol class="title-list">
+                  {otherWriteups.map((entry) => (
+                    <li>
+                      <a href={withBase(`/${entry.id}/`)}>{entry.data.title}</a>
+                    </li>
+                  ))}
+                </ol>
+              </div>
+            )
+          }
           <div class="skill-line">
           <p class="wall-price">全品 時価</p>
           <ul id="skills" class="tanzaku-row">
@@ -254,34 +229,31 @@ function repoHref(name: string, repo: Repo | undefined): string {
             }
           </ul>
           </div>
+          <button type="button" class="scroll-hint" data-scroll-target="skills" hidden>横に見る</button>
         </div>
-        <p class="scroll-hint">← 横に見る</p>
         {
           otherRepos.length > 0 && (
-            <details class="more">
-              <summary>もっと見る（お通し {otherRepos.length}）</summary>
-              <ul class="side-menu">
+            <div class="link-group paper-group outside-wall">
+              <h3 class="link-group-title">お通し</h3>
+              <ul class="title-list">
                 {otherRepos.map((repo) => (
                   <li>
                     <a href={repo.url} target="_blank" rel="noopener noreferrer">
                       {repo.name}
                       <span class="sr-only">（新しいタブで開きます）</span>
                     </a>
-                    <span>{repo.description ?? ''}</span>
-                    {repo.stars > 0 && <span>★{repo.stars}</span>}
                   </li>
                 ))}
               </ul>
-            </details>
+            </div>
           )
         }
       </section>
 
       <section id="career" class="panel" data-receipt="ボトルキープ">
         <h2 class="section-title noren-band">ボトルキープ棚</h2>
-        <Timeline entries={profile.career} kind="job" />
-        <Timeline entries={profile.education} kind="school" />
-        <p class="scroll-hint">← 横に見る</p>
+        <Timeline entries={profile.career} kind="job" id="shelf-job" />
+        <Timeline entries={profile.education} kind="school" id="shelf-school" />
       </section>
 
       <section class="panel register" aria-labelledby="register-title">
@@ -292,12 +264,12 @@ function repoHref(name: string, repo: Repo | undefined): string {
             <figcaption>{profile.name}</figcaption>
           </figure>
           <div>
-            <details class="more bio">
-              <summary>大将の自己紹介</summary>
+            <div class="bio">
+              <h3 class="bio-title">大将の自己紹介</h3>
               <div class="bio-body">
                 {profile.intro.map((paragraph) => <p set:html={renderInline(paragraph)} />)}
               </div>
-            </details>
+            </div>
             <SocialLinks />
           </div>
         </div>

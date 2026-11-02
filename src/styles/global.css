@@ -221,7 +221,7 @@ a {
 .noren {
   display: block;
   width: min(100%, 26rem);
-  margin: 1.4rem auto 0;
+  margin: 0.7rem auto 0;
   text-decoration: none;
 }
 
@@ -277,9 +277,10 @@ a {
 
 .glass {
   position: relative;
-  display: inline-grid;
+  display: grid;
   justify-items: center;
-  margin-top: 1.2rem;
+  width: max-content;
+  margin: 0.55rem auto 0;
   cursor: pointer;
 }
 
@@ -605,18 +606,6 @@ a {
   scroll-snap-align: start;
 }
 
-.shelf > .shelf-item:has(details[open]) {
-  flex: 0 0 100%;
-  width: 100%;
-}
-
-.shelf > .shelf-item:has(details[open]) .bottle-card {
-  display: grid;
-  grid-template-columns: 1fr;
-  align-items: start;
-  gap: 0.8rem;
-}
-
 @media (min-width: 720px) {
   .shelf {
     display: grid;
@@ -629,20 +618,6 @@ a {
     flex: none;
     width: auto;
   }
-
-  .shelf > .shelf-item:has(details[open]) {
-    flex: none;
-    width: auto;
-    grid-column: 1 / -1;
-  }
-
-  .shelf > .shelf-item:has(details[open]) .bottle-card {
-    grid-template-columns: 10rem minmax(0, 40rem);
-  }
-
-  .shelf > .shelf-item:has(details[open]) .bottle-summary {
-    width: 10rem;
-  }
 }
 
 .bottle-summary {
@@ -650,15 +625,16 @@ a {
   flex-direction: column;
   align-items: center;
   justify-content: flex-end;
+  width: 100%;
   min-height: 12.5rem;
-  list-style: none;
-  cursor: pointer;
+  border: 0;
   border-bottom: 14px solid var(--wood);
-  padding-bottom: 0.45rem;
-}
-
-.bottle-summary::-webkit-details-marker {
-  display: none;
+  padding: 0 0 0.45rem;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  text-align: center;
+  cursor: pointer;
 }
 
 .bottle {
@@ -809,8 +785,15 @@ a {
   font-size: 0.82rem;
 }
 
+.bio-title {
+  margin: 0 0 0.45rem;
+  font-family: "Yuji Syuku", serif;
+  font-size: 1.05rem;
+  letter-spacing: 0.1em;
+}
+
 .bio-body {
-  margin-top: 0.6rem;
+  margin-top: 0;
   padding: 0.8rem 0.9rem;
 }
 
@@ -1101,7 +1084,7 @@ html.enkai body::after { content: none; }
 
 .entrance {
   max-width: none;
-  padding: 0 0 1.5rem;
+  padding: 0 0 0.8rem;
 }
 
 .eaves {
@@ -1116,7 +1099,7 @@ html.enkai body::after { content: none; }
   align-items: start;
   gap: 0.5rem;
   width: min(100% - 1.5rem, 72rem);
-  margin: 0.6rem auto 0;
+  margin: 0.25rem auto 0;
 }
 
 button.akachochin {
@@ -1143,7 +1126,7 @@ button.akachochin {
   font-size: clamp(2rem, 9vw, 3rem);
   font-weight: 400;
   line-height: 1.05;
-  margin: 0.8rem 0 0.2rem;
+  margin: 0.35rem 0 0.1rem;
   white-space: nowrap;
 }
 
@@ -1374,6 +1357,7 @@ html.enkai .entrance::after { right: 2%; animation-delay: -0.4s; }
   display: flex;
   align-items: stretch;
   gap: 0.55rem;
+  margin-top: 0.9rem;
 }
 
 .wall-price {
@@ -1397,11 +1381,12 @@ body[data-phase="prep"] .lantern-body {
   filter: saturate(0.3) brightness(0.6);
   box-shadow: none;
 }
-body[data-phase="prep"] .noren { opacity: 0; }
+body[data-phase="prep"] .noren { display: none; }
 .prep-board { display: none; }
 body[data-phase="prep"] .prep-board {
-  display: inline-block;
-  margin: 0.6rem 0;
+  display: block;
+  width: fit-content;
+  margin: 0.35rem auto 0.15rem;
   padding: 0.35rem 0.8rem;
   background: #5c3b24;
   color: var(--paper);
@@ -1469,7 +1454,6 @@ body { overflow-x: clip; }
   position: relative;
 }
 
-.scroll-hint,
 .wall::after,
 .shelf::after {
   pointer-events: none;
@@ -1492,14 +1476,20 @@ body { overflow-x: clip; }
 }
 
 .scroll-hint {
-  display: block;
-  margin: 0.2rem 0 0;
+  display: inline-block;
+  margin: 0.45rem 0 0;
+  padding: 0.15rem 0.6rem;
+  border: 1px solid rgb(244 236 223 / 0.4);
+  background: transparent;
   color: var(--cream-dim);
-  font-size: 0.78rem;
+  font: inherit;
+  font-size: 0.82rem;
+  letter-spacing: 0.12em;
+  cursor: pointer;
 }
 
-@media (min-width: 720px) {
-  .scroll-hint { display: none; }
+.scroll-hint[hidden] {
+  display: none;
 }
 
 .skill-strip { position: relative; }
@@ -1642,4 +1632,134 @@ body { overflow-x: clip; }
   20% { opacity: 1; transform: translateY(0); }
   75% { opacity: 1; }
   100% { opacity: 0; }
+}
+
+.link-group + .link-group {
+  margin-top: 1.25rem;
+}
+
+.link-group-title {
+  margin: 0 0 0.35rem;
+  font-family: "Yuji Syuku", serif;
+  font-size: 0.95rem;
+  letter-spacing: 0.14em;
+  line-height: 1.4;
+}
+
+.title-list {
+  margin: 0.15rem 0 0;
+  padding-left: 1.5rem;
+  line-height: 1.65;
+}
+
+ol.title-list {
+  list-style: decimal;
+}
+
+ul.title-list {
+  list-style: disc;
+}
+
+.title-list li {
+  margin: 0.5rem 0;
+  padding: 0.05rem 0;
+}
+
+.title-list a {
+  letter-spacing: 0.04em;
+}
+
+.chalkboard .link-group + .link-group {
+  margin-top: 1.15rem;
+  padding-top: 0.9rem;
+  border-top: 1px solid rgb(244 246 232 / 0.22);
+}
+
+.chalkboard .title-list {
+  color: var(--chalk);
+}
+
+.paper-group {
+  margin-top: 0.95rem;
+  padding: 0.8rem 0.95rem 0.9rem;
+  background: var(--paper);
+  color: var(--ink);
+}
+
+.paper-group .title-list a,
+.wall-note .title-list a {
+  color: #7d1830;
+}
+
+.outside-wall {
+  margin-top: 1rem;
+}
+
+.bottle-dialog {
+  width: min(40rem, calc(100% - 2rem));
+  max-height: min(80vh, 42rem);
+  margin: auto;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--ink);
+}
+
+.bottle-dialog:focus {
+  outline: none;
+}
+
+.bottle-dialog:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 4px;
+}
+
+.bottle-dialog::backdrop {
+  background: rgb(8 4 6 / 0.62);
+}
+
+.bottle-dialog form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  max-height: min(80vh, 42rem);
+  margin: 0;
+  padding: 1rem 1rem 0.9rem;
+  overflow: auto;
+  background: var(--paper);
+  color: var(--ink);
+  box-shadow: 0 18px 40px rgb(0 0 0 / 0.45);
+}
+
+.bottle-dialog h3 {
+  margin: 0;
+  font-family: "Yuji Syuku", serif;
+  font-size: 1.25rem;
+  letter-spacing: 0.06em;
+  line-height: 1.4;
+}
+
+.bottle-dialog-meta {
+  margin: 0;
+  color: #6b4428;
+  letter-spacing: 0.08em;
+  font-size: 0.88rem;
+}
+
+.bottle-dialog .bottle-note {
+  margin-top: 0.2rem;
+  padding: 0;
+  background: transparent;
+}
+
+.bottle-close {
+  display: block;
+  margin: 0.7rem auto 0.15rem;
+  font: inherit;
+  cursor: pointer;
+  border: 0;
+  background: var(--lantern);
+  color: #fff8f3;
+  padding: 0.4rem 0.95rem;
+  letter-spacing: 0.12em;
 }

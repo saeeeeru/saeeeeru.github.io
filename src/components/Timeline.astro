@@ -39,12 +39,12 @@ const longest = Math.max(...lengths, 1);
       const current = entry.period.includes('現在');
       const tag = kind === 'school' ? '卒業' : current ? 'キープ中' : '空き瓶';
       const summary = plain(normalizePoint(entry.points[0]).text);
-      const fill = Math.round((lengths[index] / longest) * 100);
+      const fill = current ? Math.round((lengths[index] / longest) * 100) : 6;
       return (
         <li class="shelf-item">
           <details class="bottle-card">
             <summary class="bottle-summary">
-              <span class={`bottle bottle-${index % 4}`} style={`--fill: ${fill}%`} aria-hidden="true"></span>
+              <span class={`bottle bottle-${index % 4}${current ? '' : ' is-empty'}`} style={`--fill: ${fill}%`} aria-hidden="true"></span>
               <span class="name-tag">
                 <span class={`keep-tag ${current ? 'is-current' : ''}`}>{tag}</span>
                 <span class="name-tag-org">{entry.org}{entry.suffix ?? ''}</span>

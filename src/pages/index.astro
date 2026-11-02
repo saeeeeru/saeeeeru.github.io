@@ -83,10 +83,11 @@ function repoHref(name: string, repo: Repo | undefined): string {
       </div>
       <p class="shop-en">{profile.name}</p>
       <p class="shop-line">{profile.oneLiner}</p>
+      <p class="prep-board">仕込み中</p>
       <a id="noren" class="noren rope" href="#counter">
         <span class="sr-only">縄のれんをくぐる</span>
         <span class="rope-row" aria-hidden="true">
-          <span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+          <span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span>
         </span>
         <span class="noren-mark">さえない</span>
       </a>
@@ -101,7 +102,7 @@ function repoHref(name: string, repo: Repo | undefined): string {
           <span class="glass-stem"></span>
           <span class="glass-foot"></span>
           <span class="kanpai" aria-hidden="true">乾杯！</span>
-          <span class="glass-caption">タップで注ぐ</span>
+          <span class="glass-caption"><span class="tap-long">タップで注ぐ</span><span class="tap-short">注ぐ</span></span>
         </span>
       </label>
     </section>
@@ -112,8 +113,6 @@ function repoHref(name: string, repo: Repo | undefined): string {
         <h2>今日の大将</h2>
         <p class="taisho-role">{profile.now.org}　{profile.jobTitle}</p>
         <p class="asof">{profile.now.asOf}</p>
-        <p class="taisho-lead">{profile.now.lead}</p>
-        <p class="taisho-intro" set:html={renderInline(profile.intro[0] ?? '')} />
         <ul>
           {
             profile.now.items.map((item) => (
@@ -139,7 +138,7 @@ function repoHref(name: string, repo: Repo | undefined): string {
             </a>
           </p>
         </div>
-        <p class="enkai-hint">宴会のご予約は ↑↑↓↓←→←→BA</p>
+        <p class="enkai-hint"><span class="hint-key">宴会のご予約は ↑↑↓↓←→←→BA</span><span class="hint-tap">提灯を5回たたくと宴会</span></p>
         <ol class="song-list">
           {
             visibleArticles.map((article, index) => (
@@ -232,27 +231,29 @@ function repoHref(name: string, repo: Repo | undefined): string {
               </article>
             ))
           }
-          <ul class="tanzaku-row">
+          <ul class="dish-list">
             {
               otherWriteups.map((entry) => (
-                <li class="tanzaku">
+                <li>
                   <a href={withBase(`/${entry.id}/`)}>{entry.data.title}</a>
-                  <span class="price">{wareki(entry.data.date)}</span>
+                  <span>{wareki(entry.data.date)}</span>
                 </li>
               ))
             }
           </ul>
+          <div class="skill-line">
           <p class="wall-price">全品 時価</p>
           <ul id="skills" class="tanzaku-row">
             {
               profile.skills.map((skill) => (
                 <li class="tanzaku skill-strip">
-                  <span class={shortSkill(skill).length <= 3 ? 'upright' : ''}>{shortSkill(skill)}</span>
+                  <span class={shortSkill(skill) === 'SQL' ? 'upright' : ''}>{shortSkill(skill)}</span>
                   <span class="skill-full">{skill}</span>
                 </li>
               ))
             }
           </ul>
+          </div>
         </div>
         <p class="scroll-hint">← 横に見る</p>
         {
@@ -284,7 +285,7 @@ function repoHref(name: string, repo: Repo | undefined): string {
       </section>
 
       <section class="panel register" aria-labelledby="register-title">
-        <h2 id="register-title" class="section-title plaque">レジの横</h2>
+        <h2 id="register-title" class="section-title noren-band">レジの横</h2>
         <div class="register-grid">
           <figure class="shikishi">
             <img src={withBase(profile.image)} alt={profile.imageAlt} width="96" height="96" />

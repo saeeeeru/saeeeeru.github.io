@@ -12,16 +12,19 @@ const links = [
 <header class="site-header">
   <div class="header-inner">
     <a class="brand-link" href={withBase('/')}>居酒屋 冴</a>
-    <nav aria-label="店内">
-      <ul>
-        {
-          links.map((link) => (
-            <li>
-              <a href={withBase(link.href)}>{link.label}</a>
-            </li>
-          ))
-        }
-      </ul>
-    </nav>
+    <div class="header-end">
+      <nav aria-label="店内">
+        <ul>
+          {
+            links.map((link) => (
+              <li>
+                <a href={withBase(link.href)}>{link.label}</a>
+              </li>
+            ))
+          }
+        </ul>
+      </nav>
+      <button type="button" id="shop-status" class="shop-status" hidden></button>
+    </div>
   </div>
 </header>

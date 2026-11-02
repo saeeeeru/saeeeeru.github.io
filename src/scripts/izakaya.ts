@@ -93,7 +93,7 @@ function setupHours(): void {
     if (!debug) sessionStorage.setItem(CLOSED_KEY, '1');
     setStatus('閉店後です。お静かに', 'after');
     const noren = document.getElementById('noren');
-    if (noren instanceof HTMLElement) noren.focus();
+    if (noren instanceof HTMLElement) noren.focus({ preventScroll: true, focusVisible: false });
   };
 
   enter.addEventListener('click', leave);
@@ -178,7 +178,17 @@ function setupReceipt(): void {
 function toggleEnkai(): void {
   const on = document.documentElement.classList.toggle('enkai');
   const live = document.getElementById('karaoke-live');
+  const status = document.getElementById('shop-status');
   if (live) live.textContent = on ? '宴会のあかりにしました' : 'いつものあかりに戻しました';
+  if (on) {
+    setStatus('宴会中！', 'enkai');
+  } else if (status) {
+    const phase = document.body.dataset.phase;
+    if (phase === 'prep') setStatus('仕込み中', 'prep');
+    else if (phase === 'open') setStatus('営業中', 'open');
+    else if (phase === 'last') setStatus('ラストオーダーです', 'last');
+    else if (phase === 'closed') setStatus('閉店後です。お静かに', 'after');
+  }
 }
 
 function setupKaraoke(): void {
@@ -214,3 +224,6 @@ function setupKaraoke(): void {
 setupHours();
 setupReceipt();
 setupKaraoke();
+document.getElementById('shop-status')?.addEventListener('click', () => {
+  if (document.documentElement.classList.contains('enkai')) toggleEnkai();
+});

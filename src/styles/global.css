@@ -124,6 +124,7 @@ a {
 .brand-link {
   font-family: "Kaisei Decol", "Yuji Syuku", serif;
   letter-spacing: 0.08em;
+  white-space: nowrap;
 }
 
 .site-header nav ul {
@@ -490,7 +491,7 @@ a {
   gap: 0.8rem;
 }
 
-@media (min-width: 800px) {
+@media (min-width: 960px) {
   .menu-grid {
     grid-template-columns: 1.4fr 1fr;
   }
@@ -591,16 +592,57 @@ a {
 
 .shelf {
   display: flex;
-  align-items: flex-start;
+  align-items: flex-end;
   gap: 0.75rem;
   overflow-x: auto;
   padding: 0.4rem 0.2rem 0.8rem;
   scroll-snap-type: x mandatory;
 }
 
-.shelf > li {
-  flex: 0 0 8.2rem;
+.shelf > .shelf-item {
+  flex: 0 0 10rem;
+  width: 10rem;
   scroll-snap-align: start;
+}
+
+.shelf > .shelf-item:has(details[open]) {
+  flex: 0 0 100%;
+  width: 100%;
+}
+
+.shelf > .shelf-item:has(details[open]) .bottle-card {
+  display: grid;
+  grid-template-columns: 1fr;
+  align-items: start;
+  gap: 0.8rem;
+}
+
+@media (min-width: 720px) {
+  .shelf {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    align-items: end;
+    overflow: visible;
+  }
+
+  .shelf > .shelf-item {
+    flex: none;
+    width: auto;
+  }
+
+  .shelf > .shelf-item:has(details[open]) {
+    flex: none;
+    width: auto;
+    grid-column: 1 / -1;
+  }
+
+  .shelf > .shelf-item:has(details[open]) .bottle-card {
+    grid-template-columns: 10rem minmax(0, 40rem);
+  }
+
+  .shelf > .shelf-item:has(details[open]) .bottle-summary {
+    width: 10rem;
+  }
 }
 
 .bottle-summary {
@@ -670,21 +712,30 @@ a {
   box-shadow: 2px 2px 0 rgb(0 0 0 / 0.25);
 }
 
-.name-tag-org,
-.name-tag-period {
-  display: block;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
 .name-tag-org {
   font-family: "Yuji Syuku", serif;
   font-size: 0.92rem;
+  white-space: normal;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  line-height: 1.35;
 }
 
 .name-tag-period {
-  font-size: 0.72rem;
+  font-size: 0.82rem;
+}
+
+.name-tag-role {
+  display: -webkit-box;
+  margin-top: 0.15rem;
+  font-size: 0.75rem;
+  line-height: 1.35;
+  overflow: hidden;
+  white-space: normal;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
 }
 
 .bottle-note {
@@ -1029,21 +1080,7 @@ html.enkai body {
     linear-gradient(180deg, #5a341c, #2a1a10 60%);
 }
 
-html.enkai body::after {
-  content: "宴会です";
-  position: fixed;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  z-index: 25;
-  padding: 0.4rem 0;
-  text-align: center;
-  background: #2c1c12;
-  color: var(--paper);
-  letter-spacing: 0.22em;
-  font-family: "Yuji Syuku", serif;
-  pointer-events: none;
-}
+html.enkai body::after { content: none; }
 
 @keyframes sway {
   0%, 100% { transform: rotate(-2.5deg); }
@@ -1075,9 +1112,9 @@ html.enkai body::after {
 
 .lantern-pair {
   display: grid;
-  grid-template-columns: 5rem minmax(0, 1fr) 5rem;
+  grid-template-columns: 4.5rem minmax(0, 1fr) 4.5rem;
   align-items: start;
-  gap: 0.75rem;
+  gap: 0.5rem;
   width: min(100% - 1.5rem, 72rem);
   margin: 0.6rem auto 0;
 }
@@ -1091,35 +1128,44 @@ button.akachochin {
 }
 
 .akachochin {
-  width: 5rem;
+  width: 4.5rem;
   margin: 0;
 }
 
 .lantern-body {
-  width: 5rem;
-  height: 5.6rem;
-  font-size: 1.8rem;
+  width: 4.5rem;
+  height: 5rem;
+  font-size: 1.6rem;
 }
 
 .shop-sign {
   font-family: "Yuji Boku", "Yuji Syuku", serif;
-  font-size: clamp(3rem, 8vw, 6rem);
+  font-size: clamp(2rem, 9vw, 3rem);
   font-weight: 400;
   line-height: 1.05;
   margin: 0.8rem 0 0.2rem;
+  white-space: nowrap;
+}
+
+@media (min-width: 720px) {
+  .lantern-pair { grid-template-columns: 5.5rem minmax(0, 1fr) 5.5rem; gap: 0.75rem; }
+  .shop-sign { font-size: clamp(3.5rem, 6vw, 6rem); }
+  .akachochin,
+  .lantern-body { width: 5.5rem; }
+  .lantern-body { height: 5.6rem; font-size: 1.8rem; }
 }
 
 .rope-row {
   display: flex;
   justify-content: space-between;
-  width: min(100%, 40rem);
-  height: 7.5rem;
+  width: min(100%, 52rem);
+  height: 6.2rem;
   margin: 0 auto;
 }
 
 .rope-row span {
-  width: 3px;
-  background: #c4a574;
+  width: 5px;
+  background: repeating-linear-gradient(180deg, #c9a56b 0 6px, #a07a45 6px 9px);
   position: relative;
   transition: transform 0.35s ease;
 }
@@ -1150,13 +1196,14 @@ button.akachochin {
 }
 
 .noren-mark {
-  display: block;
-  margin-top: -4.2rem;
+  display: inline-block;
+  margin-top: 0.45rem;
+  padding: 0.15rem 0.9rem 0.3rem;
+  background: #24180f;
   font-family: "Yuji Syuku", serif;
-  font-size: clamp(2rem, 6vw, 3.2rem);
+  font-size: clamp(1.8rem, 5vw, 2.8rem);
   letter-spacing: 0.28em;
-  color: var(--paper);
-  text-shadow: 0 2px 0 #24180f;
+  color: #f4ead6;
 }
 
 .glass-caption { letter-spacing: 0.08em; }
@@ -1193,13 +1240,16 @@ button.akachochin {
 
 .floor-top { display: block; }
 
-@media (min-width: 900px) {
+@media (min-width: 960px) {
   .floor-top {
     display: grid;
-    grid-template-columns: 17rem minmax(0, 1fr);
+    grid-template-columns: 22rem minmax(0, 1fr);
     gap: 1rem;
     align-items: start;
   }
+
+  .taisho-sign { text-align: left; }
+  .taisho-sign li span { word-break: keep-all; }
 }
 
 .noren-band,
@@ -1219,8 +1269,8 @@ button.akachochin {
 }
 
 .plaque {
-  background: #f4ead6;
-  color: var(--ink);
+  background: var(--lantern);
+  color: #fff8f3;
 }
 
 .taisho-role,
@@ -1249,8 +1299,17 @@ button.akachochin {
 .enkai-hint {
   margin: 0;
   color: #d7c7a4;
-  font-size: 0.75rem;
-  letter-spacing: 0.04em;
+  font-size: 0.82rem;
+  letter-spacing: 0.1em;
+}
+
+.hint-tap { display: inline; }
+.hint-key { display: none; }
+
+@media (min-width: 720px) {
+  .hint-tap { display: none; }
+  .hint-key { display: inline; }
+  .tap-long { display: none; }
 }
 
 html.enkai .song-no::before { content: "K-"; }
@@ -1258,8 +1317,9 @@ html.enkai .akachochin { animation: sway 1.6s ease-in-out infinite; }
 html.enkai .entrance::before,
 html.enkai .entrance::after {
   content: "";
+  display: none;
   position: absolute;
-  top: 2.2rem;
+  top: 4.5rem;
   width: 3.2rem;
   height: 4.2rem;
   border-radius: 46%;
@@ -1267,8 +1327,13 @@ html.enkai .entrance::after {
   box-shadow: 0 0 18px rgb(230 160 74 / 0.7);
   animation: sway 1.2s ease-in-out infinite;
 }
-html.enkai .entrance::before { left: 6%; }
-html.enkai .entrance::after { right: 6%; animation-delay: -0.4s; }
+html.enkai .entrance::before { left: 2%; }
+html.enkai .entrance::after { right: 2%; animation-delay: -0.4s; }
+
+@media (min-width: 720px) {
+  html.enkai .entrance::before,
+  html.enkai .entrance::after { display: block; }
+}
 
 .feature-plaque {
   display: flex;
@@ -1301,9 +1366,104 @@ html.enkai .entrance::after { right: 6%; animation-delay: -0.4s; }
 }
 
 .tanzaku-row {
-  flex-direction: row-reverse;
+  flex-direction: row;
   justify-content: flex-start;
 }
+
+.skill-line {
+  display: flex;
+  align-items: stretch;
+  gap: 0.55rem;
+}
+
+.wall-price {
+  writing-mode: vertical-rl;
+  background: #f4ead6;
+  color: #1c140f;
+  padding: 0.6rem 0.35rem;
+  margin: 0;
+  letter-spacing: 0.18em;
+  font-family: "Yuji Syuku", serif;
+}
+
+.tanzaku .price { margin-block-start: 0.8em; }
+
+.tap-short { display: none; }
+@media (min-width: 720px) {
+  .tap-short { display: inline; }
+}
+
+body[data-phase="prep"] .lantern-body {
+  filter: saturate(0.3) brightness(0.6);
+  box-shadow: none;
+}
+body[data-phase="prep"] .noren { opacity: 0; }
+.prep-board { display: none; }
+body[data-phase="prep"] .prep-board {
+  display: inline-block;
+  margin: 0.6rem 0;
+  padding: 0.35rem 0.8rem;
+  background: #5c3b24;
+  color: var(--paper);
+  font-family: "Yuji Syuku", serif;
+  letter-spacing: 0.16em;
+}
+body[data-phase="last"] .lantern-body {
+  filter: brightness(0.72);
+}
+
+.glass-ui { position: relative; display: inline-block; }
+.glass-ui::after {
+  content: "";
+  position: absolute;
+  right: -14px;
+  top: 22%;
+  width: 12px;
+  height: 45%;
+  border: 3px solid #f4ecdf;
+  border-left: 0;
+  border-radius: 0 8px 8px 0;
+}
+
+.header-end {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+}
+.shop-status {
+  position: static;
+  border: 0;
+  font: inherit;
+  cursor: pointer;
+  padding: 0.15rem 0.55rem;
+  font-size: 0.82rem;
+}
+
+html,
+body { overflow-x: clip; }
+
+.receipt button {
+  display: block;
+  margin: 0.6rem auto 0;
+}
+
+.bottle.is-empty { opacity: 0.7; }
+
+.dish-list {
+  list-style: none;
+  margin: 0.6rem 0 0.8rem;
+  padding: 0.35rem 0.7rem;
+  background: var(--paper);
+  color: var(--ink);
+}
+.dish-list li {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.8rem;
+  padding: 0.25rem 0;
+  border-top: 1px dashed rgb(36 22 15 / 0.25);
+}
+.dish-list a { color: #7d1830; }
 
 .wall {
   position: relative;
@@ -1315,26 +1475,31 @@ html.enkai .entrance::after { right: 6%; animation-delay: -0.4s; }
   pointer-events: none;
 }
 
-@media (max-width: 719px) {
-  .tanzaku { min-height: 8.5rem; padding: 0.45rem 0.28rem; font-size: 0.92rem; }
-  .wall::after,
-  .shelf-scroll::after {
-    content: "";
-    position: absolute;
-    right: 0;
-    top: 0;
-    bottom: 0;
-    width: 2.2rem;
-    background: linear-gradient(90deg, transparent, #5a3d28);
-  }
-  .scroll-hint { display: block; }
+.tanzaku { min-height: 8.5rem; padding: 0.45rem 0.28rem; font-size: 0.92rem; }
+.wall::after {
+  content: "";
+  position: absolute;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  width: 2.2rem;
+  background: linear-gradient(90deg, transparent, #5a3d28);
+}
+
+@media (min-width: 720px) {
+  .tanzaku { min-height: 12rem; padding: 0.75rem 0.4rem; font-size: 1rem; }
+  .wall::after { display: none; }
 }
 
 .scroll-hint {
-  display: none;
+  display: block;
   margin: 0.2rem 0 0;
   color: var(--cream-dim);
   font-size: 0.78rem;
+}
+
+@media (min-width: 720px) {
+  .scroll-hint { display: none; }
 }
 
 .skill-strip { position: relative; }
@@ -1359,57 +1524,8 @@ html.enkai .entrance::after { right: 6%; animation-delay: -0.4s; }
 .skill-strip:focus-within .skill-full { display: block; }
 .upright { text-combine-upright: all; }
 
-.wall-price {
-  margin: 0.2rem 0 0.45rem;
-  color: var(--paper);
-  letter-spacing: 0.18em;
-  font-family: "Yuji Syuku", serif;
-}
-
-.shelf {
-  display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  align-items: end;
-  overflow: visible;
-}
-
-.shelf > li,
-.shelf-item {
-  flex: none;
-  width: auto;
-  min-width: 0;
-}
-
-.shelf-item:has(details[open]) { grid-column: 1 / -1; }
-.shelf-item:has(details[open]) .bottle-card {
-  display: grid;
-  grid-template-columns: 10rem minmax(0, 40rem);
-  align-items: start;
-  gap: 0.8rem;
-}
-.shelf-item:has(details[open]) .bottle-summary { width: 10rem; }
 .bottle-note { max-width: 40rem; }
 .song-no { white-space: nowrap; }
-
-.name-tag-org {
-  white-space: normal;
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  line-height: 1.35;
-}
-
-.name-tag-period { font-size: 0.82rem; }
-.name-tag-role {
-  display: block;
-  margin-top: 0.15rem;
-  font-size: 0.75rem;
-  line-height: 1.35;
-  overflow: hidden;
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-}
 
 .keep-tag {
   display: inline-block;
@@ -1526,15 +1642,4 @@ html.enkai .entrance::after { right: 6%; animation-delay: -0.4s; }
   20% { opacity: 1; transform: translateY(0); }
   75% { opacity: 1; }
   100% { opacity: 0; }
-}
-
-@media (max-width: 799px) {
-  .shelf {
-    display: flex;
-    overflow-x: auto;
-    scroll-snap-type: x mandatory;
-  }
-  .shelf-item { flex: 0 0 10rem; scroll-snap-align: start; }
-  .shelf-item:has(details[open]) { flex-basis: min(100%, 24rem); }
-  .scroll-hint { display: block; }
 }

@@ -6,13 +6,19 @@ import { profile } from '../data/profile';
 import { withBase } from '../lib/url';
 ---
 
-<Base title={`ページが見つかりません | ${profile.name}`} description="ページが見つかりません">
+<Base title={`その席、もうありません｜${profile.name}`} description="その席、もうありません">
   <SiteHeader />
-  <main id="content" class="mx-auto max-w-2xl px-5 py-20">
-    <h1 class="text-3xl font-semibold tracking-tight">ページが見つかりません</h1>
-    <p class="mt-4">
-      <a href={withBase('/')}>ホームへ戻る</a>
-    </p>
+  <main id="content" class="room lost">
+    <div class="noren faded" aria-hidden="true">
+      <span class="noren-strips">
+        <span>閉</span><span>店</span>
+      </span>
+    </div>
+    <article class="menu-sheet">
+      <h1>その席、もうありません</h1>
+      <p>のれんの向こうに、その席はありません。</p>
+      <p><a href={withBase('/')}>居酒屋 冴に戻る</a></p>
+    </article>
   </main>
   <SiteFooter />
 </Base>

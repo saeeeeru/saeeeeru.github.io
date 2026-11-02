@@ -2,68 +2,26 @@
 import { withBase } from '../lib/url';
 
 const links = [
-  { href: '/#now', label: 'Now' },
-  { href: '/#writing', label: 'Writing' },
-  { href: '/#projects', label: 'Projects' },
-  { href: '/#career', label: 'Career' },
+  { href: '/#now', label: '大将' },
+  { href: '/#writing', label: 'おすすめ' },
+  { href: '/#projects', label: 'お品書き' },
+  { href: '/#career', label: 'ボトル' },
 ];
 ---
 
 <header class="site-header">
-  <div class="mx-auto flex max-w-6xl items-center justify-between gap-3 px-4 py-2 sm:px-6">
-    <a class="brand-link text-sm font-semibold tracking-tight" href={withBase('/')}>さえない</a>
-    <div class="flex items-center gap-3 sm:gap-4">
-      <nav aria-label="ページ内">
-        <ul class="flex flex-wrap justify-end gap-x-3 gap-y-1">
-          {
-            links.map((link) => (
-              <li>
-                <a class="nav-link" href={withBase(link.href)}>
-                  {link.label}
-                </a>
-              </li>
-            ))
-          }
-        </ul>
-      </nav>
-      <button class="theme-toggle" type="button" id="theme-toggle" aria-label="配色を切り替える">
-        <svg class="icon-sun" width="16" height="16" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8">
-          <circle cx="12" cy="12" r="4"></circle>
-          <path d="M12 3v2M12 19v2M3 12h2M19 12h2M5.6 5.6l1.4 1.4M17 17l1.4 1.4M18.4 5.6 17 7M7 17l-1.4 1.4"></path>
-        </svg>
-        <svg class="icon-moon" width="16" height="16" viewBox="0 0 24 24" aria-hidden="true" fill="currentColor">
-          <path d="M16.5 2.5a9 9 0 1 0 5 12.2A8 8 0 0 1 16.5 2.5z"></path>
-        </svg>
-      </button>
-    </div>
+  <div class="header-inner">
+    <a class="brand-link" href={withBase('/')}>居酒屋 冴</a>
+    <nav aria-label="店内">
+      <ul>
+        {
+          links.map((link) => (
+            <li>
+              <a href={withBase(link.href)}>{link.label}</a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
   </div>
 </header>
-<script is:inline>
-  (function () {
-    var button = document.getElementById('theme-toggle');
-    if (!button) return;
-
-    function currentTheme() {
-      var explicit = document.documentElement.getAttribute('data-theme');
-      if (explicit === 'light' || explicit === 'dark') return explicit;
-      return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-    }
-
-    function paint() {
-      var theme = currentTheme();
-      button.setAttribute('aria-pressed', theme === 'dark' ? 'true' : 'false');
-      button.setAttribute('aria-label', theme === 'dark' ? 'ライトモードに切り替える' : 'ダークモードに切り替える');
-    }
-
-    button.addEventListener('click', function () {
-      var next = currentTheme() === 'dark' ? 'light' : 'dark';
-      document.documentElement.setAttribute('data-theme', next);
-      try {
-        localStorage.setItem('theme', next);
-      } catch (e) {}
-      paint();
-    });
-
-    paint();
-  })();
-</script>

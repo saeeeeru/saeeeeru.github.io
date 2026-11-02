@@ -10,19 +10,19 @@ interface Props {
 const { entries } = Astro.props;
 ---
 
-<ul class="space-y-0.5">
+<ul class="shelf">
   {
-    entries.map((entry) => (
+    entries.map((entry, index) => (
       <li>
-        <details class="role">
-          <summary>
-            <span class="meta shrink-0">{entry.period}</span>
-            <span class="min-w-0 truncate font-medium">
-              {entry.org}
-              {entry.suffix ?? ''}
+        <details class="bottle-card">
+          <summary class="bottle-summary">
+            <span class={`bottle bottle-${index % 4}`} aria-hidden="true"></span>
+            <span class="name-tag">
+              <span class="name-tag-org">{entry.org}{entry.suffix ?? ''}</span>
+              <span class="name-tag-period">{entry.period}</span>
             </span>
           </summary>
-          <div class="role-body">
+          <div class="bottle-note">
             {entry.url && (
               <p>
                 <a href={entry.url} target="_blank" rel="noopener noreferrer">

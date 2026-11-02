@@ -9,7 +9,7 @@ import { profile } from '../data/profile';
 import { renderInline } from '../lib/inline';
 import { loadWriting } from '../lib/feeds';
 import { loadRepos, repoByName, type Repo } from '../lib/repos';
-import { formatDay, formatTimestamp } from '../lib/format';
+import { formatTimestamp } from '../lib/format';
 import { withBase } from '../lib/url';
 
 const writing = await loadWriting();
@@ -27,7 +27,22 @@ const otherRepos = repos
 const themeIds = new Set(profile.themes.flatMap((theme) => theme.writeups));
 const otherWriteups = projects.filter((entry) => !themeIds.has(entry.id));
 
-const visibleWritingCount = 5;
+const visibleWritingCount = 3;
+
+function shortSkill(skill: string): string {
+  const head = skill.split('(')[0]?.trim() ?? skill;
+  return head.split('/')[0]?.trim() || skill;
+}
+
+function wareki(date: Date): string {
+  const year = date.getUTCFullYear();
+  const month = date.getUTCMonth() + 1;
+  if (year > 2019 || (year === 2019 && month >= 5)) {
+    const n = year - 2018;
+    return n === 1 ? '令和元年仕込み' : `令和${n}年仕込み`;
+  }
+  return `平成${year - 1988}年仕込み`;
+}
 const articles = [
   ...writing.note.map((item) => ({ ...item, source: profile.writing.note.title, sourceUrl: profile.writing.note.url })),
   ...writing.sizu.map((item) => ({ ...item, source: profile.writing.sizu.title, sourceUrl: profile.writing.sizu.url })),
@@ -44,27 +59,36 @@ function repoHref(name: string, repo: Repo | undefined): string {
   return repo?.url ?? `https://github.com/${profile.github.user}/${name}`;
 }
 
-const noren = ['居', '酒', '屋', '冴'];
 ---
 
 <Base title={`${profile.name}｜居酒屋 冴`} description={profile.description} path="/">
   <SiteHeader />
   <main id="content">
     <section id="entrance" class="entrance" data-receipt="のれん" aria-labelledby="sign">
-      <div class="akachochin" aria-hidden="true">
-        <span class="lantern-cord"></span>
-        <span class="lantern-cap"></span>
-        <span class="lantern-body"><span>冴</span></span>
-        <span class="lantern-cap bottom"></span>
+      <div class="eaves" aria-hidden="true"></div>
+      <div class="lantern-pair">
+        <button type="button" class="akachochin" id="lantern-tap" aria-label="赤提灯">
+          <span class="lantern-cord"></span>
+          <span class="lantern-cap"></span>
+          <span class="lantern-body"><span>冴</span></span>
+          <span class="lantern-cap bottom"></span>
+        </button>
+        <h1 id="sign" class="shop-sign">居酒屋 冴</h1>
+        <div class="akachochin plain" aria-hidden="true">
+          <span class="lantern-cord"></span>
+          <span class="lantern-cap"></span>
+          <span class="lantern-body"></span>
+          <span class="lantern-cap bottom"></span>
+        </div>
       </div>
-      <h1 id="sign" class="shop-sign">居酒屋 冴</h1>
       <p class="shop-en">{profile.name}</p>
       <p class="shop-line">{profile.oneLiner}</p>
       <a id="noren" class="noren rope" href="#counter">
         <span class="sr-only">縄のれんをくぐる</span>
-        <span class="noren-strips" aria-hidden="true">
-          {noren.map((glyph) => <span>{glyph}</span>)}
+        <span class="rope-row" aria-hidden="true">
+          <span></span><span></span><span></span><span></span><span></span><span></span><span></span>
         </span>
+        <span class="noren-mark">さえない</span>
       </a>
       <label class="glass">
         <input class="glass-toggle" type="checkbox" />
@@ -76,15 +100,20 @@ const noren = ['居', '酒', '屋', '冴'];
           </span>
           <span class="glass-stem"></span>
           <span class="glass-foot"></span>
-          <span class="glass-caption">とりあえず生</span>
+          <span class="kanpai" aria-hidden="true">乾杯！</span>
+          <span class="glass-caption">タップで注ぐ</span>
         </span>
       </label>
     </section>
 
     <div id="counter" class="interior">
+      <div class="floor-top">
       <section id="now" class="panel taisho-sign" data-receipt="今日の大将">
         <h2>今日の大将</h2>
+        <p class="taisho-role">{profile.now.org}　{profile.jobTitle}</p>
         <p class="asof">{profile.now.asOf}</p>
+        <p class="taisho-lead">{profile.now.lead}</p>
+        <p class="taisho-intro" set:html={renderInline(profile.intro[0] ?? '')} />
         <ul>
           {
             profile.now.items.map((item) => (
@@ -110,6 +139,7 @@ const noren = ['居', '酒', '屋', '冴'];
             </a>
           </p>
         </div>
+        <p class="enkai-hint">宴会のご予約は ↑↑↓↓←→←→BA</p>
         <ol class="song-list">
           {
             visibleArticles.map((article, index) => (
@@ -119,11 +149,14 @@ const noren = ['居', '酒', '屋', '冴'];
                   {article.title}
                   <span class="sr-only">（新しいタブで開きます）</span>
                 </a>
-                <time datetime={article.date || undefined}>{article.date ? formatTimestamp(article.date) : ''}</time>
-                <a class="song-src" href={article.sourceUrl} target="_blank" rel="noopener noreferrer">
-                  {article.source}
-                  <span class="sr-only">（新しいタブで開きます）</span>
-                </a>
+                <span class="song-meta">
+                  {article.date && <time datetime={article.date}>{formatTimestamp(article.date)}</time>}
+                  <span aria-hidden="true">・</span>
+                  <a href={article.sourceUrl} target="_blank" rel="noopener noreferrer">
+                    {article.source}
+                    <span class="sr-only">（新しいタブで開きます）</span>
+                  </a>
+                </span>
               </li>
             ))
           }
@@ -140,11 +173,14 @@ const noren = ['居', '酒', '屋', '冴'];
                       {article.title}
                       <span class="sr-only">（新しいタブで開きます）</span>
                     </a>
-                    <time datetime={article.date || undefined}>{article.date ? formatTimestamp(article.date) : ''}</time>
-                    <a class="song-src" href={article.sourceUrl} target="_blank" rel="noopener noreferrer">
-                      {article.source}
-                      <span class="sr-only">（新しいタブで開きます）</span>
-                    </a>
+                    <span class="song-meta">
+                      {article.date && <time datetime={article.date}>{formatTimestamp(article.date)}</time>}
+                      <span aria-hidden="true">・</span>
+                      <a href={article.sourceUrl} target="_blank" rel="noopener noreferrer">
+                        {article.source}
+                        <span class="sr-only">（新しいタブで開きます）</span>
+                      </a>
+                    </span>
                   </li>
                 ))}
               </ol>
@@ -152,16 +188,17 @@ const noren = ['居', '酒', '屋', '冴'];
           )
         }
       </section>
+      </div>
 
       <section id="projects" class="panel menu-wall" data-receipt="お品書き">
-        <h2 class="section-title">お品書き</h2>
+        <h2 class="section-title noren-band">お品書き</h2>
         <div class="wall">
           {
             profile.themes.map((theme) => (
               <article class="wall-feature" aria-labelledby={`theme-${theme.id}`}>
-                <h3 id={`theme-${theme.id}`} class="tanzaku feature-strip">
+                <h3 id={`theme-${theme.id}`} class="feature-plaque">
                   <span>{theme.title}</span>
-                  <span class="price">名物</span>
+                  <span class="meibutsu">名物</span>
                 </h3>
                 <div class="wall-note">
                   <p>{theme.summary}</p>
@@ -174,7 +211,7 @@ const noren = ['居', '酒', '屋', '冴'];
                             {name}
                             <span class="sr-only">（新しいタブで開きます）</span>
                           </a>
-                          {repo && <span>★{repo.stars}</span>}
+                          {repo && repo.stars > 0 && <span>★{repo.stars}</span>}
                         </li>
                       );
                     })}
@@ -186,7 +223,7 @@ const noren = ['居', '酒', '屋', '冴'];
                       return (
                         <li>
                           <a href={withBase(`/${entry.id}/`)}>{entry.data.title}</a>
-                          <time datetime={entry.data.date.toISOString().slice(0, 10)}>{formatDay(entry.data.date)}</time>
+                          <time datetime={entry.data.date.toISOString().slice(0, 10)}>{wareki(entry.data.date)}</time>
                         </li>
                       );
                     })}
@@ -200,22 +237,24 @@ const noren = ['居', '酒', '屋', '冴'];
               otherWriteups.map((entry) => (
                 <li class="tanzaku">
                   <a href={withBase(`/${entry.id}/`)}>{entry.data.title}</a>
-                  <span class="price">一品</span>
+                  <span class="price">{wareki(entry.data.date)}</span>
                 </li>
               ))
             }
           </ul>
+          <p class="wall-price">全品 時価</p>
           <ul id="skills" class="tanzaku-row">
             {
               profile.skills.map((skill) => (
-                <li class="tanzaku">
-                  <span>{skill}</span>
-                  <span class="price">ひと盛り 時価</span>
+                <li class="tanzaku skill-strip">
+                  <span class={shortSkill(skill).length <= 3 ? 'upright' : ''}>{shortSkill(skill)}</span>
+                  <span class="skill-full">{skill}</span>
                 </li>
               ))
             }
           </ul>
         </div>
+        <p class="scroll-hint">← 横に見る</p>
         {
           otherRepos.length > 0 && (
             <details class="more">
@@ -228,7 +267,7 @@ const noren = ['居', '酒', '屋', '冴'];
                       <span class="sr-only">（新しいタブで開きます）</span>
                     </a>
                     <span>{repo.description ?? ''}</span>
-                    <span>★{repo.stars}</span>
+                    {repo.stars > 0 && <span>★{repo.stars}</span>}
                   </li>
                 ))}
               </ul>
@@ -238,17 +277,16 @@ const noren = ['居', '酒', '屋', '冴'];
       </section>
 
       <section id="career" class="panel" data-receipt="ボトルキープ">
-        <h2 class="section-title">ボトルキープ棚</h2>
-        <p class="shelf-label">職歴</p>
-        <Timeline entries={profile.career} />
-        <p class="shelf-label">学歴</p>
-        <Timeline entries={profile.education} />
+        <h2 class="section-title noren-band">ボトルキープ棚</h2>
+        <Timeline entries={profile.career} kind="job" />
+        <Timeline entries={profile.education} kind="school" />
+        <p class="scroll-hint">← 横に見る</p>
       </section>
 
       <section class="panel register" aria-labelledby="register-title">
-        <h2 id="register-title" class="section-title">レジの横</h2>
+        <h2 id="register-title" class="section-title plaque">レジの横</h2>
         <div class="register-grid">
-          <figure class="portrait">
+          <figure class="shikishi">
             <img src={withBase(profile.image)} alt={profile.imageAlt} width="96" height="96" />
             <figcaption>{profile.name}</figcaption>
           </figure>

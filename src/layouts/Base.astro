@@ -12,6 +12,7 @@ interface Props {
 const { title, description = profile.description, path = Astro.url.pathname } = Astro.props;
 const canonical = absoluteUrl(path, Astro.site);
 const image = absoluteUrl(profile.image, Astro.site);
+const ogImage = absoluteUrl('/og.png', Astro.site);
 const sameAs = profile.social.filter((item) => item.href.startsWith('http')).map((item) => item.href);
 const jsonLd = {
   '@context': 'https://schema.org',
@@ -48,12 +49,14 @@ const jsonLd = {
     <meta property="og:type" content="website" />
     <meta property="og:locale" content="ja_JP" />
     <meta property="og:url" content={canonical} />
-    <meta property="og:image" content={image} />
-    <meta name="twitter:card" content="summary" />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:site" content="@saeeeeru" />
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
-    <meta name="twitter:image" content={image} />
+    <meta name="twitter:image" content={ogImage} />
     {isPreview && <meta name="robots" content="noindex, nofollow" />}
     <link rel="sitemap" href={withBase('/sitemap-index.xml')} />
     <link rel="alternate" type="application/rss+xml" title={profile.name} href={withBase('/feed.xml')} />
@@ -62,8 +65,6 @@ const jsonLd = {
   <body>
     <div id="closed-sign" class="closed-sign" hidden>
       <div class="paper-sign" role="dialog" aria-modal="true" aria-labelledby="closed-title">
-        <p class="paper-kicker">張り紙</p>
-        <p class="paper-last">ラストオーダーです</p>
         <h2 id="closed-title">本日は閉店しました</h2>
         <p>大将は子どもを寝かしつけ中です</p>
         <button type="button" id="closed-enter">それでも入る</button>
@@ -71,12 +72,15 @@ const jsonLd = {
     </div>
     <div id="shop">
       <a class="skip-link" href="#content">店内へスキップ</a>
-      <p id="last-order" class="last-order" hidden>ラストオーダーです</p>
+      <p id="shop-status" class="shop-status" hidden></p>
       <p id="karaoke-live" class="sr-only" aria-live="polite"></p>
       <slot />
       <dialog id="receipt" class="receipt" aria-labelledby="receipt-title">
         <form method="dialog">
           <p class="receipt-shop">居酒屋 冴</p>
+          <p id="receipt-guest">上様</p>
+          <p id="receipt-when"></p>
+          <p id="receipt-no"></p>
           <h2 id="receipt-title">お会計</h2>
           <ul id="receipt-lines"></ul>
           <p id="receipt-total">合計　時価</p>

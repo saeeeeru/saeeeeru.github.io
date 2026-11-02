@@ -1,3 +1,7 @@
+@import "@fontsource/yuji-boku/japanese-400.css";
+@import "@fontsource/yuji-boku/latin-400.css";
+@import "@fontsource/klee-one/japanese-400.css";
+@import "@fontsource/klee-one/latin-400.css";
 @import "@fontsource/kaisei-decol/japanese-700.css";
 @import "@fontsource/kaisei-decol/latin-700.css";
 @import "@fontsource/yuji-syuku/japanese-400.css";
@@ -918,6 +922,7 @@ a {
 
 .receipt {
   width: min(22rem, calc(100% - 2rem));
+  margin: auto;
   padding: 0;
   border: 0;
   background: transparent;
@@ -1049,8 +1054,487 @@ html.enkai body::after {
   .akachochin,
   .beer,
   .foam,
+  .kanpai,
+  .rope-row span,
   .noren-strips span {
     animation: none;
     transition: none;
   }
+}
+
+.entrance {
+  max-width: none;
+  padding: 0 0 1.5rem;
+}
+
+.eaves {
+  height: 1.15rem;
+  background: #24180f;
+  box-shadow: 0 12px 18px rgb(0 0 0 / 0.35);
+}
+
+.lantern-pair {
+  display: grid;
+  grid-template-columns: 5rem minmax(0, 1fr) 5rem;
+  align-items: start;
+  gap: 0.75rem;
+  width: min(100% - 1.5rem, 72rem);
+  margin: 0.6rem auto 0;
+}
+
+button.akachochin {
+  border: 0;
+  padding: 0;
+  background: none;
+  color: inherit;
+  cursor: pointer;
+}
+
+.akachochin {
+  width: 5rem;
+  margin: 0;
+}
+
+.lantern-body {
+  width: 5rem;
+  height: 5.6rem;
+  font-size: 1.8rem;
+}
+
+.shop-sign {
+  font-family: "Yuji Boku", "Yuji Syuku", serif;
+  font-size: clamp(3rem, 8vw, 6rem);
+  font-weight: 400;
+  line-height: 1.05;
+  margin: 0.8rem 0 0.2rem;
+}
+
+.rope-row {
+  display: flex;
+  justify-content: space-between;
+  width: min(100%, 40rem);
+  height: 7.5rem;
+  margin: 0 auto;
+}
+
+.rope-row span {
+  width: 3px;
+  background: #c4a574;
+  position: relative;
+  transition: transform 0.35s ease;
+}
+
+.rope-row span::before,
+.rope-row span::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: #6b4428;
+  transform: translateX(-50%);
+}
+
+.rope-row span::before { top: 18%; }
+.rope-row span::after { top: 62%; }
+
+.noren:hover .rope-row span:nth-child(odd),
+.noren:focus-visible .rope-row span:nth-child(odd) {
+  transform: translateX(-12px);
+}
+
+.noren:hover .rope-row span:nth-child(even),
+.noren:focus-visible .rope-row span:nth-child(even) {
+  transform: translateX(12px);
+}
+
+.noren-mark {
+  display: block;
+  margin-top: -4.2rem;
+  font-family: "Yuji Syuku", serif;
+  font-size: clamp(2rem, 6vw, 3.2rem);
+  letter-spacing: 0.28em;
+  color: var(--paper);
+  text-shadow: 0 2px 0 #24180f;
+}
+
+.glass-caption { letter-spacing: 0.08em; }
+
+.kanpai {
+  position: absolute;
+  top: -0.2rem;
+  right: -2.4rem;
+  padding: 0.15rem 0.4rem;
+  background: var(--paper);
+  color: var(--lantern);
+  font-family: "Yuji Syuku", serif;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.glass-toggle:checked ~ .glass-ui .kanpai {
+  animation: kanpai 1s ease forwards;
+}
+
+.glass-bowl::after {
+  content: "";
+  position: absolute;
+  right: -0.7rem;
+  top: 0.8rem;
+  width: 0.7rem;
+  height: 1.6rem;
+  border: 3px solid rgb(244 236 223 / 0.85);
+  border-left: 0;
+  border-radius: 0 0.8rem 0.8rem 0;
+}
+
+.foam { height: 14%; bottom: 0; }
+
+.floor-top { display: block; }
+
+@media (min-width: 900px) {
+  .floor-top {
+    display: grid;
+    grid-template-columns: 17rem minmax(0, 1fr);
+    gap: 1rem;
+    align-items: start;
+  }
+}
+
+.noren-band,
+.plaque {
+  display: inline-block;
+  margin: 0 0 0.7rem;
+  padding: 0.2rem 0.85rem;
+  font-family: "Yuji Syuku", serif;
+  font-size: clamp(1.35rem, 3vw, 1.75rem);
+  letter-spacing: 0.12em;
+  line-height: 1.4;
+}
+
+.noren-band {
+  background: var(--lantern);
+  color: #fff8f3;
+}
+
+.plaque {
+  background: #f4ead6;
+  color: var(--ink);
+}
+
+.taisho-role,
+.taisho-lead,
+.taisho-intro {
+  margin: 0.2rem 0;
+  font-size: 0.92rem;
+}
+
+.chalkboard,
+.chalkboard a,
+.chalkboard time {
+  font-family: "Klee One", "Yuji Syuku", serif;
+}
+
+.song-list li {
+  grid-template-columns: 2rem minmax(0, 1fr);
+}
+
+.song-meta {
+  grid-column: 2;
+  color: #d5d8c4;
+  font-size: 0.85rem;
+}
+
+.enkai-hint {
+  margin: 0;
+  color: #d7c7a4;
+  font-size: 0.75rem;
+  letter-spacing: 0.04em;
+}
+
+html.enkai .song-no::before { content: "K-"; }
+html.enkai .akachochin { animation: sway 1.6s ease-in-out infinite; }
+html.enkai .entrance::before,
+html.enkai .entrance::after {
+  content: "";
+  position: absolute;
+  top: 2.2rem;
+  width: 3.2rem;
+  height: 4.2rem;
+  border-radius: 46%;
+  background: radial-gradient(circle at 50% 40%, #ffb089, var(--lantern));
+  box-shadow: 0 0 18px rgb(230 160 74 / 0.7);
+  animation: sway 1.2s ease-in-out infinite;
+}
+html.enkai .entrance::before { left: 6%; }
+html.enkai .entrance::after { right: 6%; animation-delay: -0.4s; }
+
+.feature-plaque {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.6rem;
+  min-height: 3.2rem;
+  padding: 0.45rem 0.7rem;
+  background: #f4ead6;
+  color: var(--ink);
+  font-family: "Yuji Syuku", serif;
+  writing-mode: horizontal-tb;
+}
+
+.meibutsu {
+  background: var(--lantern);
+  color: #fff;
+  padding: 0.05rem 0.4rem;
+  letter-spacing: 0.12em;
+}
+
+@media (min-width: 720px) {
+  .feature-plaque {
+    writing-mode: vertical-rl;
+    justify-self: start;
+    justify-content: space-between;
+    min-height: 12rem;
+    width: auto;
+  }
+}
+
+.tanzaku-row {
+  flex-direction: row-reverse;
+  justify-content: flex-start;
+}
+
+.wall {
+  position: relative;
+}
+
+.scroll-hint,
+.wall::after,
+.shelf::after {
+  pointer-events: none;
+}
+
+@media (max-width: 719px) {
+  .tanzaku { min-height: 8.5rem; padding: 0.45rem 0.28rem; font-size: 0.92rem; }
+  .wall::after,
+  .shelf-scroll::after {
+    content: "";
+    position: absolute;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    width: 2.2rem;
+    background: linear-gradient(90deg, transparent, #5a3d28);
+  }
+  .scroll-hint { display: block; }
+}
+
+.scroll-hint {
+  display: none;
+  margin: 0.2rem 0 0;
+  color: var(--cream-dim);
+  font-size: 0.78rem;
+}
+
+.skill-strip { position: relative; }
+.skill-full {
+  display: none;
+  writing-mode: horizontal-tb;
+  letter-spacing: 0;
+  position: absolute;
+  left: 50%;
+  bottom: calc(100% + 0.3rem);
+  transform: translateX(-50%);
+  width: max-content;
+  max-width: 14rem;
+  padding: 0.3rem 0.45rem;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: "Shippori Mincho", serif;
+  font-size: 0.78rem;
+  z-index: 2;
+}
+.skill-strip:hover .skill-full,
+.skill-strip:focus-within .skill-full { display: block; }
+.upright { text-combine-upright: all; }
+
+.wall-price {
+  margin: 0.2rem 0 0.45rem;
+  color: var(--paper);
+  letter-spacing: 0.18em;
+  font-family: "Yuji Syuku", serif;
+}
+
+.shelf {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  align-items: end;
+  overflow: visible;
+}
+
+.shelf > li,
+.shelf-item {
+  flex: none;
+  width: auto;
+  min-width: 0;
+}
+
+.shelf-item:has(details[open]) { grid-column: 1 / -1; }
+.shelf-item:has(details[open]) .bottle-card {
+  display: grid;
+  grid-template-columns: 10rem minmax(0, 40rem);
+  align-items: start;
+  gap: 0.8rem;
+}
+.shelf-item:has(details[open]) .bottle-summary { width: 10rem; }
+.bottle-note { max-width: 40rem; }
+.song-no { white-space: nowrap; }
+
+.name-tag-org {
+  white-space: normal;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  line-height: 1.35;
+}
+
+.name-tag-period { font-size: 0.82rem; }
+.name-tag-role {
+  display: block;
+  margin-top: 0.15rem;
+  font-size: 0.75rem;
+  line-height: 1.35;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+
+.keep-tag {
+  display: inline-block;
+  margin-bottom: 0.15rem;
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  color: #6b4428;
+}
+.keep-tag.is-current {
+  background: var(--lantern);
+  color: #fff;
+  padding: 0 0.3rem;
+}
+
+.bottle::after {
+  content: "";
+  position: absolute;
+  left: 2px;
+  right: 2px;
+  bottom: 2px;
+  height: var(--fill, 40%);
+  background: rgb(196 90 40 / 0.45);
+  border-radius: 0 0 0.2rem 0.2rem;
+}
+
+.icon-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+  margin: 0.8rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+.icon-link {
+  display: grid;
+  place-items: center;
+  width: 3rem;
+  height: 3rem;
+  color: var(--ink);
+  background: var(--paper);
+  text-decoration: none;
+}
+.icon-link svg { width: 1.25rem; height: 1.25rem; }
+.icon-row li:nth-child(3n) .icon-link { border-radius: 999px; }
+.icon-row li:nth-child(3n + 1) .icon-link { transform: rotate(-2deg); }
+.icon-row li:nth-child(3n + 2) .icon-link { border-radius: 0.2rem 0.8rem; }
+
+.shikishi {
+  margin: 0;
+  padding: 0.7rem 0.7rem 1.1rem;
+  background: #f7f1e4;
+  color: var(--ink);
+  text-align: center;
+  box-shadow: 0 10px 0 rgb(0 0 0 / 0.2);
+  transform: rotate(-1.5deg);
+}
+.shikishi img {
+  width: 6rem;
+  height: 6rem;
+  object-fit: cover;
+}
+.shikishi figcaption {
+  margin-top: 0.35rem;
+  font-family: "Yuji Syuku", serif;
+}
+
+.shop-status {
+  margin: 0;
+  padding: 0.35rem 1rem;
+  text-align: center;
+  letter-spacing: 0.16em;
+  font-family: "Yuji Syuku", serif;
+  background: #5c3b24;
+  color: var(--paper);
+}
+.shop-status[hidden] { display: none; }
+.shop-status[data-kind="last"] { background: var(--lantern); color: #fff8f3; }
+.shop-status[data-kind="after"] { background: #3a2418; }
+
+.paper-sign { position: relative; }
+.paper-sign::before {
+  content: "";
+  position: absolute;
+  top: -0.7rem;
+  left: 50%;
+  width: 0.9rem;
+  height: 0.9rem;
+  border-radius: 50%;
+  background: var(--lantern);
+  box-shadow: 0 2px 0 #8d8d8d;
+  transform: translateX(-50%);
+}
+
+.sold-out {
+  display: inline-block;
+  margin: 0 auto 0.8rem;
+  padding: 0.35rem 0.7rem;
+  background: #f4ead6;
+  color: var(--ink);
+  font-family: "Yuji Syuku", serif;
+  letter-spacing: 0.12em;
+}
+
+#receipt-guest,
+#receipt-when,
+#receipt-no {
+  margin: 0;
+  text-align: center;
+  font-size: 0.85rem;
+}
+
+@keyframes kanpai {
+  0% { opacity: 0; transform: translateY(6px); }
+  20% { opacity: 1; transform: translateY(0); }
+  75% { opacity: 1; }
+  100% { opacity: 0; }
+}
+
+@media (max-width: 799px) {
+  .shelf {
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+  }
+  .shelf-item { flex: 0 0 10rem; scroll-snap-align: start; }
+  .shelf-item:has(details[open]) { flex-basis: min(100%, 24rem); }
+  .scroll-hint { display: block; }
 }

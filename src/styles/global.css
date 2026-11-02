@@ -72,8 +72,8 @@ body {
   background: var(--bg);
   color: var(--fg);
   font-family: Inter, "Noto Sans JP", "Hiragino Sans", "Hiragino Kaku Gothic ProN", Meiryo, "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", sans-serif;
-  font-size: 1.0625rem;
-  line-height: 1.85;
+  font-size: 1rem;
+  line-height: 1.65;
   text-rendering: optimizeLegibility;
 }
 
@@ -153,18 +153,115 @@ a:hover {
 }
 
 .section {
-  scroll-margin-top: 5.5rem;
-  padding-top: 3.25rem;
+  scroll-margin-top: 4.25rem;
+  padding-top: 1.15rem;
 }
 
 .kicker {
-  margin: 0 0 0.85rem;
+  margin: 0 0 0.35rem;
   color: var(--accent);
-  font-size: 0.78rem;
+  font-size: 0.75rem;
   font-weight: 600;
-  letter-spacing: 0.16em;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
+  line-height: 1.3;
+}
+
+.label {
+  margin: 0 0 0.15rem;
+  color: var(--muted);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
   line-height: 1.4;
+}
+
+.feed-row,
+.repo-line {
+  display: grid;
+  grid-template-columns: 6.1rem auto minmax(0, 1fr);
+  column-gap: 0.5rem;
+  align-items: baseline;
+  font-size: 0.875rem;
+  line-height: 1.45;
+  padding: 0.1rem 0;
+}
+
+.repo-line {
+  grid-template-columns: auto minmax(0, 1fr) auto;
+}
+
+.badge {
+  color: var(--muted);
+  text-decoration: none;
+  font-size: 0.68rem;
+  letter-spacing: 0.03em;
+  line-height: 1.4;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 0 0.35rem;
+}
+
+.more > summary {
+  cursor: pointer;
+  color: var(--accent);
+  font-size: 0.875rem;
+  line-height: 1.45;
+  width: fit-content;
+}
+
+.more > summary:hover {
+  text-decoration: underline;
+}
+
+.role > summary {
+  display: flex;
+  gap: 0.65rem;
+  align-items: baseline;
+  cursor: pointer;
+  font-size: 0.9rem;
+  line-height: 1.45;
+  padding: 0.05rem 0;
+}
+
+.role-body {
+  margin: 0.15rem 0 0.45rem 1rem;
+  font-size: 0.875rem;
+  line-height: 1.65;
+}
+
+.role-body ul {
+  margin: 0.25rem 0 0;
+  padding-left: 1.1rem;
+}
+
+.role-body li + li {
+  margin-top: 0.2rem;
+}
+
+.project-grid {
+  display: grid;
+  gap: 0.6rem;
+}
+
+@media (min-width: 720px) {
+  .project-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .span-2 {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (min-width: 1280px) {
+  .project-grid {
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+
+  .span-2 {
+    grid-column: span 2;
+  }
 }
 
 .prose a {

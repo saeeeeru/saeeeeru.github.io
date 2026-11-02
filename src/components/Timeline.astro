@@ -10,40 +10,48 @@ interface Props {
 const { entries } = Astro.props;
 ---
 
-<ol class="space-y-8">
+<ul class="space-y-0.5">
   {
     entries.map((entry) => (
       <li>
-        <p class="meta">{entry.period}</p>
-        <h3 class="text-xl font-semibold leading-snug">
-          {entry.url ? (
-            <a href={entry.url} target="_blank" rel="noopener noreferrer">
+        <details class="role">
+          <summary>
+            <span class="meta shrink-0">{entry.period}</span>
+            <span class="min-w-0 truncate font-medium">
               {entry.org}
-              <span class="sr-only">（新しいタブで開きます）</span>
-            </a>
-          ) : (
-            entry.org
-          )}
-          {entry.suffix && <span class="font-normal text-[var(--muted)]">{entry.suffix}</span>}
-        </h3>
-        <ul class="mt-2 list-disc space-y-2 pl-5">
-          {entry.points.map((point) => {
-            const item = normalizePoint(point);
-            return (
-              <li>
-                <span set:html={renderInline(item.text)} />
-                {item.children.length > 0 && (
-                  <ul class="mt-1 list-disc space-y-1 pl-5">
-                    {item.children.map((child) => (
-                      <li set:html={renderInline(child)} />
-                    ))}
-                  </ul>
-                )}
-              </li>
-            );
-          })}
-        </ul>
+              {entry.suffix ?? ''}
+            </span>
+          </summary>
+          <div class="role-body">
+            {entry.url && (
+              <p>
+                <a href={entry.url} target="_blank" rel="noopener noreferrer">
+                  {entry.org}
+                  <span class="sr-only">（新しいタブで開きます）</span>
+                </a>
+                {entry.suffix ?? ''}
+              </p>
+            )}
+            <ul>
+              {entry.points.map((point) => {
+                const item = normalizePoint(point);
+                return (
+                  <li>
+                    <span set:html={renderInline(item.text)} />
+                    {item.children.length > 0 && (
+                      <ul>
+                        {item.children.map((child) => (
+                          <li set:html={renderInline(child)} />
+                        ))}
+                      </ul>
+                    )}
+                  </li>
+                );
+              })}
+            </ul>
+          </div>
+        </details>
       </li>
     ))
   }
-</ol>
+</ul>

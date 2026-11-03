@@ -29,6 +29,7 @@ const ProfileSchema = z.object({
   name: z.string(),
   oneLiner: z.string(),
   description: z.string(),
+  signOff: z.string(),
   site: z.string().url(),
   image: z.string(),
   imageAlt: z.string(),

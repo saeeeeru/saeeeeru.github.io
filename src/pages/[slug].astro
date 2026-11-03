@@ -16,15 +16,15 @@ export async function getStaticPaths() {
 
 const { project } = Astro.props;
 const { Content } = await render(project);
-const title = `${project.data.title}｜居酒屋 冴`;
+const title = `${project.data.title}｜大衆酒場 冴`;
 ---
 
 <Base title={title} description={project.data.summary} path={`/${project.id}/`}>
   <SiteHeader />
-  <main id="content" class="room">
-    <article class="menu-sheet">
+  <main id="content" class="wrap">
+    <article class="sheet">
       <p class="sheet-kicker">
-        <a href={withBase('/#projects')}>お品書き</a>
+        <a href={withBase('/#works')}>仕込み</a>
         <span aria-hidden="true"> · </span>
         <time datetime={project.data.date.toISOString().slice(0, 10)}>{formatDay(project.data.date)}</time>
       </p>

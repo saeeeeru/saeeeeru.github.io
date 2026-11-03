@@ -43,7 +43,7 @@ const jsonLd = {
     <link rel="icon" href={withBase('/favicon.ico')} sizes="any" />
     <link rel="icon" type="image/png" sizes="32x32" href={withBase('/favicon-32x32.png')} />
     <link rel="apple-touch-icon" href={withBase('/apple-touch-icon.png')} />
-    <meta name="theme-color" content="#2a1c12" />
+    <meta name="theme-color" content="#F1E9D2" />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:type" content="website" />
@@ -63,33 +63,10 @@ const jsonLd = {
     <script type="application/ld+json" set:html={JSON.stringify(jsonLd).replace(/</g, '\\u003c')} />
   </head>
   <body>
-    <div id="closed-sign" class="closed-sign" hidden>
-      <div class="paper-sign" role="dialog" aria-modal="true" aria-labelledby="closed-title">
-        <h2 id="closed-title">本日は閉店しました</h2>
-        <p>大将は子どもを寝かしつけ中です</p>
-        <button type="button" id="closed-enter">それでも入る</button>
-      </div>
-    </div>
-    <div id="shop">
-      <a class="skip-link" href="#content">店内へスキップ</a>
-      <p id="karaoke-live" class="sr-only" aria-live="polite"></p>
-      <slot />
-      <dialog id="receipt" class="receipt" aria-labelledby="receipt-title">
-        <form method="dialog">
-          <p class="receipt-shop">居酒屋 冴</p>
-          <p id="receipt-guest">上様</p>
-          <p id="receipt-when"></p>
-          <p id="receipt-no"></p>
-          <h2 id="receipt-title">お会計</h2>
-          <ul id="receipt-lines"></ul>
-          <p id="receipt-total">合計　時価</p>
-          <p class="receipt-thanks">またのお越しを</p>
-          <button type="submit">伝票を閉じる</button>
-        </form>
-      </dialog>
-    </div>
+    <a class="skip-link" href="#content">本文へスキップ</a>
+    <slot />
     <script>
-      import '../scripts/izakaya.ts';
+      import '../scripts/slip.ts';
     </script>
   </body>
 </html>

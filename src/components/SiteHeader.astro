@@ -1,30 +1,9 @@
 ---
 import { withBase } from '../lib/url';
-
-const links = [
-  { href: '/#now', label: '大将' },
-  { href: '/#writing', label: 'おすすめ' },
-  { href: '/#projects', label: 'お品書き' },
-  { href: '/#career', label: 'ボトル' },
-];
 ---
 
-<header class="site-header">
-  <div class="header-inner">
-    <a class="brand-link" href={withBase('/')}>居酒屋 冴</a>
-    <div class="header-end">
-      <nav aria-label="店内">
-        <ul>
-          {
-            links.map((link) => (
-              <li>
-                <a href={withBase(link.href)}>{link.label}</a>
-              </li>
-            ))
-          }
-        </ul>
-      </nav>
-      <button type="button" id="shop-status" class="shop-status" hidden></button>
-    </div>
+<header class="subhead">
+  <div class="wrap">
+    <a href={withBase('/')}>大衆酒場 冴</a>
   </div>
 </header>

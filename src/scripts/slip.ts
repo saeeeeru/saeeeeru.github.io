@@ -74,6 +74,94 @@ function setupOkawari(): void {
   });
 }
 
+function setupHashira(): void {
+  const bar = document.querySelector('.hashira');
+  const fv = document.querySelector('.fv');
+  if (!(bar instanceof HTMLElement) || !(fv instanceof HTMLElement)) return;
+
+  const sections = [...document.querySelectorAll<HTMLElement>('[data-chapter]')];
+  const kanji = ['一', '二', '三', '四', '五', '六', '七', '八', '九', '十'];
+  if (sections.length === 0) return;
+
+  const setActive = (id: string) => {
+    const index = sections.findIndex((section) => section.id === id);
+    document.querySelectorAll<HTMLElement>('[data-pos]').forEach((link) => {
+      const on = link.dataset.pos === id;
+      link.classList.toggle('on', on);
+      if (on) link.setAttribute('aria-current', 'location');
+      else link.removeAttribute('aria-current');
+    });
+    const name = index >= 0 ? sections[index]?.querySelector('h2')?.textContent?.trim() ?? '' : '';
+    const no = index >= 0 ? kanji[index] ?? String(index + 1) : '';
+    document.querySelectorAll('[data-pos-name]').forEach((node) => {
+      node.textContent = name;
+    });
+    document.querySelectorAll('[data-pos-no]').forEach((node) => {
+      node.textContent = no;
+    });
+  };
+
+  const current = new IntersectionObserver(
+    (entries) => {
+      const hit = entries
+        .filter((entry) => entry.isIntersecting)
+        .sort(
+          (a, b) =>
+            sections.indexOf(a.target as HTMLElement) - sections.indexOf(b.target as HTMLElement),
+        )
+        .at(-1);
+      if (hit) setActive(hit.target.id);
+    },
+    { rootMargin: '-30% 0px -65% 0px', threshold: 0 },
+  );
+  for (const section of sections) current.observe(section);
+
+  const passed = new IntersectionObserver(
+    ([entry]) => {
+      if (!entry) return;
+      const past = !entry.isIntersecting;
+      document.documentElement.classList.toggle('past-fv', past);
+      bar.toggleAttribute('inert', !past);
+    },
+    { rootMargin: '0px 0px -85% 0px', threshold: 0 },
+  );
+  passed.observe(fv);
+
+  const lastId = sections.at(-1)?.id;
+  let ticking = false;
+  window.addEventListener(
+    'scroll',
+    () => {
+      if (ticking || !lastId) return;
+      ticking = true;
+      requestAnimationFrame(() => {
+        ticking = false;
+        if (window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 4) {
+          setActive(lastId);
+        }
+      });
+    },
+    { passive: true },
+  );
+
+  const toc = document.getElementById('toc-dlg');
+  const open = document.querySelector('.open-toc');
+  if (!(toc instanceof HTMLDialogElement) || !(open instanceof HTMLButtonElement)) return;
+
+  const setExpanded = () => open.setAttribute('aria-expanded', String(toc.open));
+  open.addEventListener('click', () => {
+    toc.showModal();
+  });
+  toc.addEventListener('toggle', setExpanded);
+  toc.addEventListener('click', (event) => {
+    if (event.target === toc) toc.close();
+  });
+  toc.querySelectorAll('a').forEach((link) => {
+    link.addEventListener('click', () => toc.close());
+  });
+}
+
 setupDialogs();
 setupSlip();
 setupOkawari();
+setupHashira();

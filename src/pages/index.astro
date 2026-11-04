@@ -62,10 +62,60 @@ const pinned = profile.pinned.map((name) => ({
 function pad(index: number): string {
   return String(index + 1).padStart(2, '0');
 }
+
+const chapters = [
+  { id: 'kojo', name: '口上' },
+  { id: 'career', name: '職歴' },
+  { id: 'writing', name: '書き物と仕込み' },
+  { id: 'contact', name: 'ご連絡' },
+];
+const kanji = ['一', '二', '三', '四', '五', '六', '七', '八', '九', '十'];
+const chapterTotal = kanji[chapters.length - 1] ?? String(chapters.length);
 ---
 
 <Base title={`大衆酒場 冴 ｜ ${profile.name}`} description={profile.description} path="/">
-  <div class="wrap">
+  <div class="hashira" inert>
+    <div class="in">
+      <a class="ttl" href="#content">大衆酒場 冴</a>
+      <nav aria-label="品書き（現在地）">
+        <ul>
+          {
+            chapters.map((chapter, index) => (
+              <li>
+                <a href={`#${chapter.id}`} data-pos={chapter.id}>
+                  <span class="k">{kanji[index]}</span>
+                  <span class="t">{chapter.name}</span>
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </nav>
+      <p class="cnt">
+        <span class="nm" data-pos-name></span><b data-pos-no>{kanji[0]}</b>／{chapterTotal}
+      </p>
+      <button type="button" class="open-toc" aria-haspopup="dialog" aria-controls="toc-dlg" aria-expanded="false">品書き</button>
+    </div>
+  </div>
+  <dialog id="toc-dlg" class="toc-dlg" aria-labelledby="toc-dlg-t">
+    <h2 id="toc-dlg-t">品書き</h2>
+    <form method="dialog"><button type="submit" class="x">閉じる</button></form>
+    <nav aria-label="品書き">
+      <ul>
+        {
+          chapters.map((chapter, index) => (
+            <li>
+              <a href={`#${chapter.id}`} data-pos={chapter.id}>
+                <span class="k">{kanji[index]}</span>
+                <span class="t">{chapter.name}</span>
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+  </dialog>
+  <div class="wrap page-clip">
     <section class="fv" id="content">
       <header>
         <div class="mast">
@@ -130,7 +180,7 @@ function pad(index: number): string {
       </div>
     </section>
 
-    <section class="sec" id="kojo">
+    <section class="sec" id="kojo" data-chapter>
       <div class="sec-h"><span class="n">01</span><h2>口上</h2><p>店主のこと</p></div>
       <div class="g12">
         <div class="kojo">
@@ -160,7 +210,7 @@ function pad(index: number): string {
       </div>
     </section>
 
-    <section class="sec" id="career">
+    <section class="sec" id="career" data-chapter>
       <div class="sec-h"><span class="n">02</span><h2>職歴</h2><p>行を押すと明細が出ます</p></div>
       <ul class="ledger">
         {
@@ -179,7 +229,7 @@ function pad(index: number): string {
       </ul>
     </section>
 
-    <section class="sec" id="writing">
+    <section class="sec" id="writing" data-chapter>
       <div class="sec-h"><span class="n">03</span><h2>書き物と仕込み</h2><p>新しい順</p></div>
       <div class="cols">
         <div class="col">

@@ -99,6 +99,10 @@ function setupHashira(): void {
     document.querySelectorAll('[data-pos-no]').forEach((node) => {
       node.textContent = no;
     });
+    const fab = document.querySelector('.fab');
+    if (fab instanceof HTMLButtonElement && name) {
+      fab.setAttribute('aria-label', `品書きを開く（いま：${no} ${name}）`);
+    }
   };
 
   const current = new IntersectionObserver(
@@ -144,20 +148,50 @@ function setupHashira(): void {
     { passive: true },
   );
 
+  const foot = document.getElementById('contact');
+  if (foot) {
+    const near = new IntersectionObserver(
+      ([entry]) => {
+        if (!entry) return;
+        document.documentElement.classList.toggle('near-foot', entry.isIntersecting);
+      },
+      { threshold: 0 },
+    );
+    near.observe(foot);
+  }
+
   const toc = document.getElementById('toc-dlg');
-  const open = document.querySelector('.open-toc');
+  const open = document.querySelector('.fab');
   if (!(toc instanceof HTMLDialogElement) || !(open instanceof HTMLButtonElement)) return;
 
+  const visible = () => {
+    const style = getComputedStyle(open);
+    return style.display !== 'none' && style.visibility !== 'hidden';
+  };
   const setExpanded = () => open.setAttribute('aria-expanded', String(toc.open));
   open.addEventListener('click', () => {
     toc.showModal();
   });
   toc.addEventListener('toggle', setExpanded);
+  toc.addEventListener('close', () => {
+    if (toc.dataset.jump) {
+      delete toc.dataset.jump;
+      return;
+    }
+    if (visible()) open.focus();
+  });
   toc.addEventListener('click', (event) => {
     if (event.target === toc) toc.close();
   });
   toc.querySelectorAll('a').forEach((link) => {
-    link.addEventListener('click', () => toc.close());
+    link.addEventListener('click', () => {
+      const target = document.querySelector(link.getAttribute('href') ?? '');
+      toc.dataset.jump = '1';
+      toc.close();
+      if (!(target instanceof HTMLElement)) return;
+      target.setAttribute('tabindex', '-1');
+      window.setTimeout(() => target.focus({ preventScroll: true }), 0);
+    });
   });
 }
 

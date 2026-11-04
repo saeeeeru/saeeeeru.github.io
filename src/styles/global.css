@@ -535,6 +535,8 @@ ul { list-style: none; margin: 0; padding: 0; }
 
 .hashira .open-toc { display: none; }
 
+.fab { display: none; }
+
 dialog.toc-dlg {
   margin: auto auto 0;
   width: 100%;
@@ -1175,49 +1177,85 @@ dialog h3 a { text-decoration: none; }
   dialog.b-dlg h3 { font-size: 22px; }
   .pts > li { font-size: 13.5px; }
 
-  .hashira .in {
-    padding: 0 18px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-wrap: nowrap;
-    gap: 12px;
-    height: 100%;
+  .hashira { display: none; }
+
+  body:has(.fab) {
+    padding-bottom: calc(52px + env(safe-area-inset-bottom, 0px));
   }
 
-  .hashira .ttl,
-  .hashira nav { display: none; }
+  .fab {
+    all: unset;
+    box-sizing: border-box;
+    position: fixed;
+    z-index: 40;
+    left: 0;
+    right: 0;
+    bottom: env(safe-area-inset-bottom, 0px);
+    display: flex;
+    align-items: center;
+    gap: 0.55em;
+    width: auto;
+    height: 52px;
+    padding: 0 16px;
+    background: var(--ink);
+    color: var(--paper);
+    font-family: "Zen Kaku Gothic New", sans-serif;
+    font-weight: 700;
+    font-size: 14px;
+    letter-spacing: 0.06em;
+    white-space: nowrap;
+    cursor: pointer;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(8px);
+    transition: opacity 0.2s, transform 0.2s, visibility 0.2s;
+  }
 
-  .hashira .cnt {
-    margin: 0 auto 0 0;
+  .past-fv:not(.near-foot) .fab {
+    opacity: 1;
+    visibility: visible;
+    transform: none;
+  }
+
+  .fab:focus-visible {
+    outline: 3px solid var(--shu);
+    outline-offset: 3px;
+  }
+
+  .fab .no {
+    flex: none;
+    font-family: "Dela Gothic One", serif;
+    font-weight: 400;
+    font-size: 17px;
+    color: var(--shu);
+    letter-spacing: 0;
+  }
+
+  .fab .nm {
     min-width: 0;
     overflow: hidden;
     text-overflow: ellipsis;
-    font-family: "Zen Kaku Gothic New", sans-serif;
-    font-weight: 700;
-    font-size: 13.5px;
   }
 
-  .hashira .cnt .nm {
-    display: inline;
-    margin-right: 0.6em;
-    letter-spacing: 0.1em;
-  }
-
-  .hashira .open-toc {
-    all: unset;
-    display: block;
-    position: static;
+  .fab .of {
     flex: none;
-    box-sizing: border-box;
-    cursor: pointer;
-    font-family: "Zen Kaku Gothic New", sans-serif;
-    font-weight: 700;
-    font-size: 12px;
-    letter-spacing: 0.2em;
-    white-space: nowrap;
-    border: 1.5px solid var(--ink);
-    padding: 3px 10px;
+    font-family: "BIZ UDPMincho", serif;
+    font-weight: 400;
+    font-size: 13px;
+    letter-spacing: 0.05em;
+    opacity: 0.75;
+  }
+
+  .fab .sep {
+    flex: none;
+    opacity: 0.45;
+  }
+
+  .fab .go {
+    flex: none;
+    margin-left: auto;
+    font-size: 12.5px;
+    letter-spacing: 0.24em;
   }
 }
 
@@ -1227,7 +1265,8 @@ dialog h3 a { text-decoration: none; }
   .wall > *,
   .ticker button,
   .slip,
-  .hashira {
+  .hashira,
+  .fab {
     transition: none;
   }
 }

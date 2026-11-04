@@ -94,9 +94,22 @@ const chapterTotal = kanji[chapters.length - 1] ?? String(chapters.length);
       <p class="cnt">
         <span class="nm" data-pos-name></span><b data-pos-no>{kanji[0]}</b>／{chapterTotal}
       </p>
-      <button type="button" class="open-toc" aria-haspopup="dialog" aria-controls="toc-dlg" aria-expanded="false">品書き</button>
     </div>
   </div>
+  <button
+    type="button"
+    class="fab"
+    aria-haspopup="dialog"
+    aria-controls="toc-dlg"
+    aria-expanded="false"
+    aria-label="品書きを開く"
+  >
+    <span class="no" data-pos-no aria-hidden="true">{kanji[0]}</span>
+    <span class="nm" data-pos-name></span>
+    <span class="of" aria-hidden="true">／{chapterTotal}</span>
+    <span class="sep" aria-hidden="true">｜</span>
+    <span class="go">品書き</span>
+  </button>
   <dialog id="toc-dlg" class="toc-dlg" aria-labelledby="toc-dlg-t">
     <h2 id="toc-dlg-t">品書き</h2>
     <form method="dialog"><button type="submit" class="x">閉じる</button></form>

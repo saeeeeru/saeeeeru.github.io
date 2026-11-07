@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://saeeeeru.github.io/sitemap-index.xml

@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
-  <rect width="1200" height="630" fill="#F1E9D2"/>
-  <rect x="0" y="0" width="1200" height="18" fill="#161310"/>
-  <text x="80" y="250" fill="#161310" font-family="serif" font-size="120" font-weight="700">大衆酒場 冴</text>
-  <text x="80" y="360" fill="#161310" font-family="serif" font-size="48">山室 冴</text>
-  <text x="80" y="430" fill="#161310" font-family="serif" font-size="32">さえない / Yamamuro Saeru</text>
-  <rect x="80" y="470" width="280" height="14" fill="#EEC12E"/>
-</svg>

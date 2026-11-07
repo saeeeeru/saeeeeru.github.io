@@ -7,80 +7,137 @@ on:
 permissions:
   contents: write
   pull-requests: write
-  pages: write
-  id-token: write
+  pages: read
+
+concurrency:
+  group: gh-pages-publish
+  cancel-in-progress: false
 
 jobs:
   build-and-deploy:
+    if: github.event.pull_request.head.repo.full_name == github.repository
     runs-on: ubuntu-latest
+    env:
+      ASTRO_TELEMETRY_DISABLED: '1'
     steps:
-      - name: Checkout code
+      - name: Checkout
         uses: actions/checkout@v4
+
+      - name: Install and build
+        uses: withastro/action@v5
         with:
-          fetch-depth: 0
+          node-version: '22'
+          package-manager: npm
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          BASE_PATH: /pr-preview/${{ github.event.pull_request.number }}
 
-      - name: Setup Ruby
-        uses: ruby/setup-ruby@v1
-        with:
-          ruby-version: '3.0'
-          bundler-cache: false
-
-      - name: Build Jekyll site
-        run: |
-          bundle lock --add-platform x86_64-linux
-          bundle install
-          bundle exec jekyll build --baseurl "/pr-preview/${{ github.event.pull_request.number }}"
-
-      - name: Deploy to GitHub Pages
+      - name: Deploy preview to gh-pages
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./_site
+          publish_dir: ./dist
+          publish_branch: gh-pages
           destination_dir: pr-preview/${{ github.event.pull_request.number }}
           keep_files: true
+          enable_jekyll: false
+
+      - name: Read Pages publishing source
+        id: pages
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          if gh api "repos/${GITHUB_REPOSITORY}/pages" > /tmp/pages.json; then
+            echo "build_type=$(jq -r '.build_type // "unknown"' /tmp/pages.json)" >> "$GITHUB_OUTPUT"
+            echo "source_branch=$(jq -r '.source.branch // "unknown"' /tmp/pages.json)" >> "$GITHUB_OUTPUT"
+          else
+            echo "build_type=unknown" >> "$GITHUB_OUTPUT"
+            echo "source_branch=unknown" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Mirror preview onto main while Pages still publishes main
+        id: mirror
+        if: steps.pages.outputs.build_type == 'legacy' && steps.pages.outputs.source_branch == 'main'
+        continue-on-error: true
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          path: main-preview
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Commit preview onto main
+        id: publish-main
+        if: steps.pages.outputs.build_type == 'legacy' && steps.pages.outputs.source_branch == 'main'
+        continue-on-error: true
+        working-directory: main-preview
+        env:
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+        run: |
+          set -euo pipefail
+          rm -rf "pr-preview/${PR_NUMBER}"
+          mkdir -p "pr-preview/${PR_NUMBER}"
+          cp -a "$GITHUB_WORKSPACE/dist/." "pr-preview/${PR_NUMBER}/"
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add "pr-preview/${PR_NUMBER}"
+          if git diff --cached --quiet; then
+            echo "Preview directory already matches"
+            exit 0
+          fi
+          git commit -m "Add preview for PR #${PR_NUMBER} [skip ci]"
+          git pull --rebase origin main
+          git push origin HEAD:main
 
       - name: Comment PR with preview URL
+        if: always() && github.event.pull_request.head.repo.full_name == github.repository
         uses: actions/github-script@v7
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
             const prNumber = context.payload.pull_request.number;
-            const repoName = context.repo.repo;
             const ownerName = context.repo.owner;
             const previewUrl = `https://${ownerName}.github.io/pr-preview/${prNumber}/`;
-            
-            const comment = `🚀 **プレビュー環境が作成されました！**
-            
-            プレビューURL: ${previewUrl}
-            
-            このプレビューは、PRが更新されるたびに自動的に更新されます。`;
-            
-            // 既存のコメントを検索
+            const source = '${{ steps.pages.outputs.source_branch }}';
+            const buildType = '${{ steps.pages.outputs.build_type }}';
+            const mirrored = '${{ steps.publish-main.outcome }}';
+            const lines = [
+              'プレビューを更新しました。',
+              '',
+              previewUrl,
+              '',
+            ];
+            if (buildType === 'legacy' && source === 'main') {
+              if (mirrored === 'success') {
+                lines.push('GitHub Pages の公開元はまだ `main` なので、同じ内容を `main` の `pr-preview/' + prNumber + '` にも置いています。上の URL はこの経路で開きます。');
+              } else {
+                lines.push('`main` への反映に失敗しました。`gh-pages` の `pr-preview/' + prNumber + '` には置いてあります。公開元が `main` のあいだは、上の URL は 404 になることがあります。');
+              }
+            } else {
+              lines.push('公開元が `gh-pages` のときは、この URL がプレビューです。');
+            }
+            lines.push('', 'PR を更新するたびに、このプレビューも更新されます。');
+            const body = lines.join('\n');
+
             const comments = await github.rest.issues.listComments({
               owner: ownerName,
-              repo: repoName,
-              issue_number: prNumber
+              repo: context.repo.repo,
+              issue_number: prNumber,
             });
-            
-            const botComment = comments.data.find(comment => 
-              comment.user.type === 'Bot' && 
-              comment.body.includes('プレビュー環境が作成されました')
+            const botComment = comments.data.find((comment) =>
+              comment.user.type === 'Bot' && comment.body.includes('プレビューを更新しました')
             );
-            
             if (botComment) {
-              // 既存のコメントを更新
               await github.rest.issues.updateComment({
                 owner: ownerName,
-                repo: repoName,
+                repo: context.repo.repo,
                 comment_id: botComment.id,
-                body: comment
+                body,
               });
             } else {
-              // 新規コメントを作成
               await github.rest.issues.createComment({
                 owner: ownerName,
-                repo: repoName,
+                repo: context.repo.repo,
                 issue_number: prNumber,
-                body: comment
+                body,
               });
             }

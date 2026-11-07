@@ -1,0 +1,140 @@
+{
+  "fetchedAt": "2026-11-01T13:22:57.437Z",
+  "repos": [
+    {
+      "name": "saeeeeru.github.io",
+      "description": "this is my portfolio",
+      "url": "https://github.com/saeeeeru/saeeeeru.github.io",
+      "language": "HTML",
+      "stars": 0,
+      "updated": "2026-11-01T13:01:46Z",
+      "archived": false
+    },
+    {
+      "name": "dotfiles",
+      "description": null,
+      "url": "https://github.com/saeeeeru/dotfiles",
+      "language": "Lua",
+      "stars": 0,
+      "updated": "2026-11-01T12:44:38Z",
+      "archived": false
+    },
+    {
+      "name": "dtc-tensorflow",
+      "description": "Implementation of Deep Temporal Clustering.",
+      "url": "https://github.com/saeeeeru/dtc-tensorflow",
+      "language": "Python",
+      "stars": 72,
+      "updated": "2026-03-17T10:32:24Z",
+      "archived": false
+    },
+    {
+      "name": "statsbomb-to-bigquery",
+      "description": "statsbomb-opendataをBigQueryにインポートするスクリプト",
+      "url": "https://github.com/saeeeeru/statsbomb-to-bigquery",
+      "language": null,
+      "stars": 0,
+      "updated": "2023-12-02T02:38:16Z",
+      "archived": false
+    },
+    {
+      "name": "MessiAnalyzer",
+      "description": "This repo for analyzing Messi's change from statsbomb database",
+      "url": "https://github.com/saeeeeru/MessiAnalyzer",
+      "language": "Jupyter Notebook",
+      "stars": 1,
+      "updated": "2022-09-27T14:26:44Z",
+      "archived": false
+    },
+    {
+      "name": "MyTutorial2Julia",
+      "description": "this repo is for my tutorial to julia.",
+      "url": "https://github.com/saeeeeru/MyTutorial2Julia",
+      "language": "Jupyter Notebook",
+      "stars": 0,
+      "updated": "2021-05-02T05:56:31Z",
+      "archived": false
+    },
+    {
+      "name": "ScrapingFromJLeagueData",
+      "description": "J.League Data Siteから各種データをスクレイピング",
+      "url": "https://github.com/saeeeeru/ScrapingFromJLeagueData",
+      "language": "Jupyter Notebook",
+      "stars": 0,
+      "updated": "2020-12-24T07:59:54Z",
+      "archived": false
+    },
+    {
+      "name": "StatsbombAnalyzer",
+      "description": "EDA for statsbomb dataset",
+      "url": "https://github.com/saeeeeru/StatsbombAnalyzer",
+      "language": "Jupyter Notebook",
+      "stars": 1,
+      "updated": "2020-12-05T08:49:01Z",
+      "archived": false
+    },
+    {
+      "name": "AutoFomationDetector",
+      "description": "this repo for source code of AutoFormationDetector",
+      "url": "https://github.com/saeeeeru/AutoFomationDetector",
+      "language": "Jupyter Notebook",
+      "stars": 0,
+      "updated": "2020-04-20T13:09:06Z",
+      "archived": false
+    },
+    {
+      "name": "WyscoutAnalyzer",
+      "description": "There are programs, notebooks for analysis of Wyscout Dataset",
+      "url": "https://github.com/saeeeeru/WyscoutAnalyzer",
+      "language": null,
+      "stars": 0,
+      "updated": "2019-12-19T08:56:20Z",
+      "archived": false
+    },
+    {
+      "name": "bayesian-inference",
+      "description": "sample code for bayesian-inference",
+      "url": "https://github.com/saeeeeru/bayesian-inference",
+      "language": "Jupyter Notebook",
+      "stars": 0,
+      "updated": "2019-10-13T15:24:38Z",
+      "archived": false
+    },
+    {
+      "name": "data-generator",
+      "description": "This is a code for generating the simulated dataset.",
+      "url": "https://github.com/saeeeeru/data-generator",
+      "language": "Python",
+      "stars": 1,
+      "updated": "2019-06-22T02:46:44Z",
+      "archived": false
+    },
+    {
+      "name": "disruption-mapper",
+      "description": "Implementation of 『The Pressing Game: Optimal Defensive Disruption in Soccer』",
+      "url": "https://github.com/saeeeeru/disruption-mapper",
+      "language": "Python",
+      "stars": 0,
+      "updated": "2019-05-16T23:00:50Z",
+      "archived": false
+    },
+    {
+      "name": "myo-collect",
+      "description": "This is a code for collecting a time-series sequence using myo armband.",
+      "url": "https://github.com/saeeeeru/myo-collect",
+      "language": "Python",
+      "stars": 1,
+      "updated": "2018-08-17T01:05:46Z",
+      "archived": false
+    },
+    {
+      "name": "comparison-with-LSTM",
+      "description": "This is a code for forecasting experiments using LSTM",
+      "url": "https://github.com/saeeeeru/comparison-with-LSTM",
+      "language": "Python",
+      "stars": 1,
+      "updated": "2018-08-08T06:51:11Z",
+      "archived": false
+    }
+  ]
+}

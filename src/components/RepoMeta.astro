@@ -1,0 +1,43 @@
+---
+import type { Repo } from '../lib/repos';
+import { formatTimestamp, isoTimestamp } from '../lib/format';
+
+interface Props {
+  repo: Repo | undefined;
+  name: string;
+  href: string;
+}
+
+const { repo, name, href } = Astro.props;
+const updated = repo?.updated ? formatTimestamp(repo.updated) : '';
+---
+
+<article class="border-t border-[var(--line)] py-4 first:border-t-0">
+  <h4 class="text-base font-semibold leading-snug">
+    <a href={href} target="_blank" rel="noopener noreferrer">
+      {name}<span class="sr-only">（新しいタブで開きます）</span>
+    </a>
+    {
+      repo && (
+        <span class="meta ml-2 font-normal">
+          ★ {repo.stars}
+          {repo.archived && <span> · archived</span>}
+        </span>
+      )
+    }
+  </h4>
+  {repo?.description && <p class="mt-1">{repo.description}</p>}
+  {
+    (repo?.language || updated) && (
+      <p class="meta mt-1">
+        {repo?.language}
+        {repo?.language && updated && ' · '}
+        {updated && (
+          <>
+            更新 <time datetime={isoTimestamp(repo!.updated)}>{updated}</time>
+          </>
+        )}
+      </p>
+    )
+  }
+</article>

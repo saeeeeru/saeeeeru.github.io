@@ -1,0 +1,47 @@
+---
+import { getCollection, render } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import SiteHeader from '../components/SiteHeader.astro';
+import SiteFooter from '../components/SiteFooter.astro';
+import { formatDay } from '../lib/format';
+import { withBase } from '../lib/url';
+
+export async function getStaticPaths() {
+  const projects = await getCollection('projects');
+  return projects.map((project) => ({
+    params: { slug: project.id },
+    props: { project },
+  }));
+}
+
+const { project } = Astro.props;
+const { Content } = await render(project);
+const title = `${project.data.title}｜大衆酒場 冴`;
+---
+
+<Base title={title} description={project.data.summary} path={`/${project.id}/`}>
+  <SiteHeader />
+  <main id="content" class="wrap page-clip">
+    <article class="sheet">
+      <p class="sheet-kicker">
+        <a href={withBase('/#works')}>仕込み</a>
+        <span aria-hidden="true"> · </span>
+        <time datetime={project.data.date.toISOString().slice(0, 10)}>{formatDay(project.data.date)}</time>
+      </p>
+      <h1>{project.data.title}</h1>
+      {
+        project.data.tags.length > 0 && (
+          <ul class="tag-row">
+            {project.data.tags.map((tag) => (
+              <li>{tag}</li>
+            ))}
+          </ul>
+        )
+      }
+      <div class="prose">
+        <Content />
+      </div>
+    </article>
+  </main>
+  <SiteFooter />
+</Base>

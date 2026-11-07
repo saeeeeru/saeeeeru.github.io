@@ -1,0 +1,39 @@
+---
+import { profile } from '../data/profile';
+import { withBase } from '../lib/url';
+
+const year = new Date().getFullYear();
+---
+
+<footer class="foot" id="contact" data-chapter>
+  <div class="wrap">
+    <div class="row">
+      <h2>ご連絡</h2>
+      <ul class="contact">
+        {
+          profile.social.map((item) => {
+            const external = item.href.startsWith('http');
+            return (
+              <li>
+                <a
+                  href={item.href}
+                  target={external ? '_blank' : undefined}
+                  rel={external ? 'noopener noreferrer' : undefined}
+                >
+                  {item.name}
+                  {external && <span class="sr-only">（新しいタブで開きます）</span>}
+                </a>
+              </li>
+            );
+          })
+        }
+      </ul>
+    </div>
+    <div class="bottom">
+      <span>{profile.name} © {year}</span>
+      <span>
+        {profile.signOff}　<a href={withBase('/feed.xml')}>RSS</a>
+      </span>
+    </div>
+  </div>
+</footer>

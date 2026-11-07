@@ -1,0 +1,357 @@
+---
+import Base from '../layouts/Base.astro';
+import SiteFooter from '../components/SiteFooter.astro';
+import { profile, normalizePoint } from '../data/profile';
+import { renderInline } from '../lib/inline';
+import { loadWriting } from '../lib/feeds';
+import { loadRepos, repoByName } from '../lib/repos';
+
+const writing = await loadWriting();
+const repos = await loadRepos();
+const byName = repoByName(repos);
+
+function dotDate(iso: string): string {
+  const formatted = new Intl.DateTimeFormat('en-CA', {
+    timeZone: 'Asia/Tokyo',
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+  }).format(new Date(iso));
+  return formatted.replaceAll('-', '.');
+}
+
+const picks = [
+  ...writing.note.map((item) => ({ t: item.title, u: item.url, s: profile.writing.note.title, d: item.date ? dotDate(item.date) : '' })),
+  ...writing.sizu.map((item) => ({ t: item.title, u: item.url, s: profile.writing.sizu.title, d: item.date ? dotDate(item.date) : '' })),
+].sort((a, b) => (a.d < b.d ? 1 : a.d > b.d ? -1 : 0));
+const featured = picks[0];
+
+const lines: Record<string, string> = {
+  株式会社LayerX: 'アナリティクスエンジニア。コーポレートエンジニアリングとプロダクトグロースを兼務',
+  Ubie株式会社: 'アナリティクスエンジニア（業務委託）。dbt/BigQuery/Looker Studio/Lightdash',
+  '株式会社 IB': 'テックリードとしてプロダクト開発を牽引。1人目データエンジニア',
+  ソフトバンク株式会社: '全国うごき統計、J.Score・PayPay 証券のデータ分析・モデル開発',
+};
+
+function slipName(org: string): string {
+  return org.replaceAll('株式会社', '').replace(/\s+/g, '');
+}
+
+function yearSpan(period: string): string {
+  const match = period.match(/(\d{4})\/\d{2}\s*~\s*(現在|\d{4})/);
+  if (!match) return period;
+  if (match[2] === '現在') return `${match[1]}–`;
+  return `${match[1]}–${match[2]}`;
+}
+
+function ledgerPeriod(period: string): string {
+  if (period.includes('現在')) return `${period.split('~')[0]?.trim() ?? period}–`;
+  return period.replace(/\s*~\s*/, '–');
+}
+
+function lineFor(org: string, fallback: string): string {
+  return lines[org] ?? fallback;
+}
+
+const pinned = profile.pinned.map((name) => ({
+  name,
+  url: byName.get(name)?.url ?? `https://github.com/${profile.github.user}/${name}`,
+}));
+
+function pad(index: number): string {
+  return String(index + 1).padStart(2, '0');
+}
+
+const chapters = [
+  { id: 'kojo', name: '口上' },
+  { id: 'career', name: '職歴' },
+  { id: 'writing', name: '書き物と仕込み' },
+  { id: 'contact', name: 'ご連絡' },
+];
+const kanji = ['一', '二', '三', '四', '五', '六', '七', '八', '九', '十'];
+const chapterTotal = kanji[chapters.length - 1] ?? String(chapters.length);
+---
+
+<Base title={`大衆酒場 冴 ｜ ${profile.name}`} description={profile.description} path="/">
+  <div class="hashira" inert>
+    <div class="in">
+      <a class="ttl" href="#content">大衆酒場 冴</a>
+      <nav aria-label="品書き（現在地）">
+        <ul>
+          {
+            chapters.map((chapter, index) => (
+              <li>
+                <a href={`#${chapter.id}`} data-pos={chapter.id}>
+                  <span class="k">{kanji[index]}</span>
+                  <span class="t">{chapter.name}</span>
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </nav>
+      <p class="cnt">
+        <span class="nm" data-pos-name></span><b data-pos-no>{kanji[0]}</b>／{chapterTotal}
+      </p>
+    </div>
+  </div>
+  <button
+    type="button"
+    class="fab"
+    aria-haspopup="dialog"
+    aria-controls="toc-dlg"
+    aria-expanded="false"
+    aria-label="品書きを開く"
+  >
+    <span class="no" data-pos-no aria-hidden="true">{kanji[0]}</span>
+    <span class="nm" data-pos-name></span>
+    <span class="of" aria-hidden="true">／{chapterTotal}</span>
+    <span class="sep" aria-hidden="true">｜</span>
+    <span class="go">品書き</span>
+  </button>
+  <dialog id="toc-dlg" class="toc-dlg" aria-labelledby="toc-dlg-t">
+    <h2 id="toc-dlg-t">品書き</h2>
+    <form method="dialog"><button type="submit" class="x">閉じる</button></form>
+    <nav aria-label="品書き">
+      <ul>
+        {
+          chapters.map((chapter, index) => (
+            <li>
+              <a href={`#${chapter.id}`} data-pos={chapter.id}>
+                <span class="k">{kanji[index]}</span>
+                <span class="t">{chapter.name}</span>
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+  </dialog>
+  <div class="wrap page-clip">
+    <section class="fv" id="content">
+      <header>
+        <div class="mast">
+          <span class="l" aria-hidden="true"></span>
+          <h2>大衆酒場 冴</h2>
+          <span class="r">dbt ・ Snowflake ・ AI-GTM<br />note ／ sizu ／ GitHub</span>
+        </div>
+        <div class="mast-sub">
+          <span id="today">----.--.--</span>
+          <span class="d">本日のお品書き ── 口上・職歴・書き物・仕込み・ご連絡</span>
+          <span class="open">営業中</span>
+        </div>
+      </header>
+      <div class="g12 fv-body">
+        <section class="lead">
+          <span class="kicker label">店主</span>
+          <h1>山室<br />冴<small>{profile.jobTitle}</small></h1>
+          <p class="deck">
+            {profile.now.org}で、<b>コーポレートエンジニアリングとプロダクトグロース</b>を兼務。{profile.oneLiner}です。
+          </p>
+        </section>
+        <nav class="wall" aria-label="品書き">
+          <span class="hd"><span>品書き</span></span>
+          <a href="#kojo"><span>口上</span><em>自己紹介</em></a>
+          <a href="#career"><span>職歴</span><em>四軒</em></a>
+          <a href="#writing"><span>書き物</span><em>note</em></a>
+          <a href="#works"><span>仕込み</span><em>GitHub</em></a>
+          <a href="#contact"><span>ご連絡</span><em>SNS</em></a>
+        </nav>
+        <aside class="slip" aria-label="御伝票（職歴）">
+          <h3>御伝票</h3>
+          <div class="meta"><span id="slipno">No.0001</span><span id="slipdate">----.--.-- --:--</span></div>
+          <ul>
+            {
+              profile.career.map((entry, index) => (
+                <li>
+                  <button type="button" data-dialog={`job-${index}`}>
+                    <span class="dt">{slipName(entry.org)}</span>
+                    <span class="dd">{yearSpan(entry.period)}</span>
+                  </button>
+                </li>
+              ))
+            }
+          </ul>
+          <div class="total"><span>お会計</span><span>まだ途中</span></div>
+          <p class="tip">品名を押すと明細が出ます</p>
+          <div class="stamp" aria-hidden="true">延長<br />中</div>
+        </aside>
+      </div>
+      <div class="ticker" aria-live="polite">
+        <b class="label">本日のおすすめ</b>
+        {
+          featured && (
+            <a id="osusume" href={featured.u} target="_blank" rel="noopener noreferrer">
+              {featured.t}
+              <span class="sr-only">（新しいタブで開きます）</span>
+            </a>
+          )
+        }
+        {featured && <span class="r" id="osusume-src">{featured.s} ／ {featured.d}</span>}
+        <button type="button" id="okawari">おかわり</button>
+      </div>
+    </section>
+
+    <section class="sec" id="kojo" data-chapter>
+      <div class="sec-h"><span class="n">01</span><h2>口上</h2><p>店主のこと</p></div>
+      <div class="g12">
+        <div class="kojo">
+          {profile.intro.map((paragraph) => <p set:html={renderInline(paragraph)} />)}
+        </div>
+        <div class="side">
+          <h3>学歴</h3>
+          <ul class="edu">
+            {
+              profile.education.map((entry) => {
+                const point = normalizePoint(entry.points[0]);
+                return (
+                  <li>
+                    <span class="per">{ledgerPeriod(entry.period)}</span>
+                    <b>{entry.org}</b>
+                    <small set:html={renderInline(point.text)} />
+                  </li>
+                );
+              })
+            }
+          </ul>
+          <h3 id="skills">腕前</h3>
+          <ul class="skills">
+            {profile.skills.map((skill) => <li>{skill}</li>)}
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="sec" id="career" data-chapter>
+      <div class="sec-h"><span class="n">02</span><h2>職歴</h2><p>行を押すと明細が出ます</p></div>
+      <ul class="ledger">
+        {
+          profile.career.map((entry, index) => (
+            <li>
+              <button type="button" data-dialog={`job-${index}`}>
+                <span class="no">{pad(index)}</span>
+                <span class="per">{ledgerPeriod(entry.period)}</span>
+                <span class="org">{slipName(entry.org)}</span>
+                <span class="ln">{lineFor(entry.org, normalizePoint(entry.points[0]).text)}</span>
+                <span class="more">明細 →</span>
+              </button>
+            </li>
+          ))
+        }
+      </ul>
+    </section>
+
+    <section class="sec" id="writing" data-chapter>
+      <div class="sec-h"><span class="n">03</span><h2>書き物と仕込み</h2><p>新しい順</p></div>
+      <div class="cols">
+        <div class="col">
+          <h3>
+            <span>{profile.writing.note.title}</span>
+            <a href={profile.writing.note.url} target="_blank" rel="noopener noreferrer">
+              すべて読む →<span class="sr-only">（新しいタブで開きます）</span>
+            </a>
+          </h3>
+          <ol class="list">
+            {
+              writing.note.map((item, index) => (
+                <li>
+                  <span class="no">{pad(index)}</span>
+                  <a href={item.url} target="_blank" rel="noopener noreferrer">
+                    {item.title}
+                    <span class="sr-only">（新しいタブで開きます）</span>
+                  </a>
+                </li>
+              ))
+            }
+          </ol>
+        </div>
+        <div class="col">
+          <h3>
+            <span>{profile.writing.sizu.title}</span>
+            <a href={profile.writing.sizu.url} target="_blank" rel="noopener noreferrer">
+              すべて読む →<span class="sr-only">（新しいタブで開きます）</span>
+            </a>
+          </h3>
+          <ol class="list">
+            {
+              writing.sizu.map((item, index) => (
+                <li>
+                  <span class="no">{pad(index)}</span>
+                  <a href={item.url} target="_blank" rel="noopener noreferrer">
+                    {item.title}
+                    <span class="sr-only">（新しいタブで開きます）</span>
+                  </a>
+                </li>
+              ))
+            }
+          </ol>
+        </div>
+        <div class="col" id="works">
+          <h3>
+            <span>GitHub</span>
+            <a href={`https://github.com/${profile.github.user}`} target="_blank" rel="noopener noreferrer">
+              すべて見る →<span class="sr-only">（新しいタブで開きます）</span>
+            </a>
+          </h3>
+          <ol class="list">
+            {
+              pinned.map((repo, index) => (
+                <li>
+                  <span class="no">{pad(index)}</span>
+                  <a href={repo.url} target="_blank" rel="noopener noreferrer">
+                    {repo.name}
+                    <span class="sr-only">（新しいタブで開きます）</span>
+                  </a>
+                </li>
+              ))
+            }
+          </ol>
+        </div>
+      </div>
+    </section>
+
+    <script type="application/json" id="osusume-data" set:html={JSON.stringify(picks).replace(/</g, '\\u003c')} />
+  </div>
+
+  {
+    profile.career.map((entry, index) => (
+      <dialog id={`job-${index}`} class="b-dlg" aria-labelledby={`job-${index}-t`}>
+        <form method="dialog" class="dlg-x"><button type="submit">閉じる</button></form>
+        <p class="dlg-k">{entry.period}</p>
+        <h3 id={`job-${index}-t`}>
+          {
+            entry.url ? (
+              <a href={entry.url} target="_blank" rel="noopener noreferrer">
+                {entry.org}
+                <span class="sr-only">（新しいタブで開きます）</span>
+              </a>
+            ) : (
+              entry.org
+            )
+          }
+          {entry.suffix ?? ''}
+        </h3>
+        <ul class="pts">
+          {
+            entry.points.map((point) => {
+              const item = normalizePoint(point);
+              return (
+                <li>
+                  <span set:html={renderInline(item.text)} />
+                  {
+                    item.children.length > 0 && (
+                      <ul>
+                        {item.children.map((child) => <li set:html={renderInline(child)} />)}
+                      </ul>
+                    )
+                  }
+                </li>
+              );
+            })
+          }
+        </ul>
+      </dialog>
+    ))
+  }
+  <SiteFooter />
+</Base>

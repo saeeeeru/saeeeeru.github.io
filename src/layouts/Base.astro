@@ -1,0 +1,72 @@
+---
+import '../styles/global.css';
+import { profile } from '../data/profile';
+import { absoluteUrl, isPreview, withBase } from '../lib/url';
+
+interface Props {
+  title: string;
+  description?: string;
+  path?: string;
+}
+
+const { title, description = profile.description, path = Astro.url.pathname } = Astro.props;
+const canonical = absoluteUrl(path, Astro.site);
+const image = absoluteUrl(profile.image, Astro.site);
+const ogImage = absoluteUrl('/og.png', Astro.site);
+const sameAs = profile.social.filter((item) => item.href.startsWith('http')).map((item) => item.href);
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: 'Yamamuro Saeru',
+  alternateName: ['さえない', profile.name],
+  url: profile.site,
+  image,
+  jobTitle: profile.jobTitle,
+  email: 'saeeeeru29@gmail.com',
+  worksFor: {
+    '@type': 'Organization',
+    name: profile.now.org,
+    url: profile.now.orgUrl,
+  },
+  sameAs,
+};
+---
+
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <link rel="icon" href={withBase('/favicon.ico')} sizes="any" />
+    <link rel="icon" type="image/png" sizes="32x32" href={withBase('/favicon-32x32.png')} />
+    <link rel="apple-touch-icon" href={withBase('/apple-touch-icon.png')} />
+    <meta name="theme-color" content="#F1E9D2" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="ja_JP" />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@saeeeeru" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
+    {isPreview && <meta name="robots" content="noindex, nofollow" />}
+    <link rel="sitemap" href={withBase('/sitemap-index.xml')} />
+    <link rel="alternate" type="application/rss+xml" title={profile.name} href={withBase('/feed.xml')} />
+    <script type="application/ld+json" set:html={JSON.stringify(jsonLd).replace(/</g, '\\u003c')} />
+  </head>
+  <body>
+    <a class="skip-link" href="#content">本文へスキップ</a>
+    <slot />
+    <script>
+      import '../scripts/slip.ts';
+    </script>
+  </body>
+</html>

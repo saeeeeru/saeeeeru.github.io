@@ -1,0 +1,18 @@
+---
+import Base from '../layouts/Base.astro';
+import SiteHeader from '../components/SiteHeader.astro';
+import SiteFooter from '../components/SiteFooter.astro';
+import { profile } from '../data/profile';
+import { withBase } from '../lib/url';
+---
+
+<Base title={`そのページはありません｜${profile.name}`} description="そのページはありません">
+  <SiteHeader />
+  <main id="content" class="wrap page-clip">
+    <article class="sheet lost">
+      <h1>そのページはありません</h1>
+      <p><a href={withBase('/')}>大衆酒場 冴に戻る</a></p>
+    </article>
+  </main>
+  <SiteFooter />
+</Base>
